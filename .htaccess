@@ -3,14 +3,19 @@ Options -Indexes
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Redirect all requests to app/public folder
+    RewriteBase /
+
+    # Forçar HTTPS em produção (descomente se necessário)
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Redirecionar tudo para app/public/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ app/public/$1 [L]
 </IfModule>
 
-# Prevent access to sensitive files
-<FilesMatch "^\.">
+# Bloquear arquivos sensíveis
+<FilesMatch "(^\.|\.env|composer\.(json|lock)|phpunit\.xml)">
     Require all denied
 </FilesMatch>
