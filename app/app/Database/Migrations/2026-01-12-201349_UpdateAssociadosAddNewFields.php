@@ -8,33 +8,46 @@ class UpdateAssociadosAddNewFields extends Migration
 {
     public function up()
     {
-        // Remove coluna matricula antiga
-        $this->forge->dropColumn('associados', 'matricula');
+        // Verifica se coluna matricula existe antes de remover
+        $db = \Config\Database::connect();
+        if ($db->fieldExists('matricula', 'associados')) {
+            $this->forge->dropColumn('associados', 'matricula');
+        }
         
-        // Adiciona novos campos
-        $fields = [
-            'registro' => [
+        // Adiciona novos campos apenas se não existirem
+        $fieldsToAdd = [];
+        
+        if (!$db->fieldExists('registro', 'associados')) {
+            $fieldsToAdd['registro'] = [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => true,
                 'after' => 'unidade_id'
-            ],
-            'matricula_sindical' => [
+            ];
+        }
+        
+        if (!$db->fieldExists('matricula_sindical', 'associados')) {
+            $fieldsToAdd['matricula_sindical'] = [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => true,
                 'after' => 'registro'
-            ],
-            'tipo_aposentado' => [
+            ];
+        }
+        
+        if (!$db->fieldExists('tipo_aposentado', 'associados')) {
+            $fieldsToAdd['tipo_aposentado'] = [
                 'type' => 'ENUM',
                 'constraint' => ['CLT', 'PENSIONISTA', 'NAO_APOSENTADO'],
                 'default' => 'NAO_APOSENTADO',
                 'null' => false,
                 'after' => 'funcao_id'
-            ]
-        ];
+            ];
+        }
         
-        $this->forge->addColumn('associados', $fields);
+        if (!empty($fieldsToAdd)) {
+            $this->forge->addColumn('associados', $fieldsToAdd);
+        }
     }
 
     public function down()
