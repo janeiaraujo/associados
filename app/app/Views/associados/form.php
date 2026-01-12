@@ -4,11 +4,6 @@
 <?= $action === 'create' ? 'Novo Associado' : 'Editar Associado' ?>
 <?= $this->endSection() ?>
 
-<?= $this->section('head') ?>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
-<?= $this->endSection() ?>
-
 <?= $this->section('content') ?>
 
 <div class="row">
@@ -101,24 +96,36 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="unidade" class="form-label">Unidade <span class="text-danger">*</span></label>
-                            <select class="form-select select2-tags <?= session('errors.unidade') ? 'is-invalid' : '' ?>" 
-                                    id="unidade" name="unidade" required>
-                                <option value="">Selecione ou digite uma nova</option>
+                            <label for="unidade_id" class="form-label">Unidade <span class="text-danger">*</span></label>
+                            <select class="form-select <?= session('errors.unidade_id') ? 'is-invalid' : '' ?>" 
+                                    id="unidade_id" name="unidade_id" required>
+                                <option value="">Selecione uma unidade</option>
+                                <?php foreach ($unidades as $unidade): ?>
+                                    <option value="<?= esc($unidade['id']) ?>" 
+                                            <?= old('unidade_id', $associado['unidade_id'] ?? '') == $unidade['id'] ? 'selected' : '' ?>>
+                                        <?= esc($unidade['nome']) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
-                            <?php if (session('errors.unidade')): ?>
-                                <div class="invalid-feedback"><?= session('errors.unidade') ?></div>
+                            <?php if (session('errors.unidade_id')): ?>
+                                <div class="invalid-feedback"><?= session('errors.unidade_id') ?></div>
                             <?php endif; ?>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="funcao" class="form-label">Função <span class="text-danger">*</span></label>
-                            <select class="form-select select2-tags <?= session('errors.funcao') ? 'is-invalid' : '' ?>" 
-                                    id="funcao" name="funcao" required>
-                                <option value="">Selecione ou digite uma nova</option>
+                            <label for="funcao_id" class="form-label">Função <span class="text-danger">*</span></label>
+                            <select class="form-select <?= session('errors.funcao_id') ? 'is-invalid' : '' ?>" 
+                                    id="funcao_id" name="funcao_id" required>
+                                <option value="">Selecione uma função</option>
+                                <?php foreach ($funcoes as $funcao): ?>
+                                    <option value="<?= esc($funcao['id']) ?>" 
+                                            <?= old('funcao_id', $associado['funcao_id'] ?? '') == $funcao['id'] ? 'selected' : '' ?>>
+                                        <?= esc($funcao['nome']) ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
-                            <?php if (session('errors.funcao')): ?>
-                                <div class="invalid-feedback"><?= session('errors.funcao') ?></div>
+                            <?php if (session('errors.funcao_id')): ?>
+                                <div class="invalid-feedback"><?= session('errors.funcao_id') ?></div>
                             <?php endif; ?>
                         </div>
 
@@ -376,71 +383,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-// Variável para unidade e função selecionadas
-const unidadeSelecionada = '<?= old('unidade', $associado['unidade'] ?? '') ?>';
-const funcaoSelecionada = '<?= old('funcao', $associado['funcao'] ?? '') ?>';
-
-// Unidades e funções existentes (passadas do controller)
-const unidadesExistentes = <?= json_encode(array_column($this->data['associadoModel']->getUnidades(), 'unidade')) ?>;
-const funcoesExistentes = <?= json_encode(array_column($this->data['associadoModel']->getFuncoes(), 'funcao')) ?>;
-
-// Inicializar Select2 com tags para Unidade e Função
-$(document).ready(function() {
-    // Inicializar Select2 para Unidade
-    $('#unidade').select2({
-        theme: 'bootstrap-5',
-        tags: true,
-        placeholder: 'Selecione ou digite uma nova',
-        allowClear: true,
-        createTag: function (params) {
-            const term = $.trim(params.term);
-            if (term === '') return null;
-            return {
-                id: term,
-                text: term,
-                newTag: true
-            }
-        }
-    });
-
-    // Adicionar opções de unidades
-    unidadesExistentes.forEach(unidade => {
-        const option = new Option(unidade, unidade, false, unidade === unidadeSelecionada);
-        $('#unidade').append(option);
-    });
-    if (unidadeSelecionada) {
-        $('#unidade').val(unidadeSelecionada).trigger('change');
-    }
-
-    // Inicializar Select2 para Função
-    $('#funcao').select2({
-        theme: 'bootstrap-5',
-        tags: true,
-        placeholder: 'Selecione ou digite uma nova',
-        allowClear: true,
-        createTag: function (params) {
-            const term = $.trim(params.term);
-            if (term === '') return null;
-            return {
-                id: term,
-                text: term,
-                newTag: true
-            }
-        }
-    });
-
-    // Adicionar opções de funções
-    funcoesExistentes.forEach(funcao => {
-        const option = new Option(funcao, funcao, false, funcao === funcaoSelecionada);
-        $('#funcao').append(option);
-    });
-    if (funcaoSelecionada) {
-        $('#funcao').val(funcaoSelecionada).trigger('change');
-    }
-});
-
 // Máscara de CPF
 document.getElementById('cpf').addEventListener('input', function(e) {
     let value = e.target.value.replace(/\D/g, '');
