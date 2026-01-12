@@ -139,13 +139,13 @@
                 <i class="bi bi-briefcase"></i> Funções
             </a>
             <?php endif; ?>
-            
+            <!--
             <?php if (has_permission('associados.import')): ?>
             <a class="nav-link" href="<?= base_url('importacao') ?>">
                 <i class="bi bi-file-earmark-arrow-up"></i> Importação
             </a>
             <?php endif; ?>
-            
+            -->
             <?php if (has_permission('relatorios.view')): ?>
             <a class="nav-link" href="<?= base_url('relatorios') ?>">
                 <i class="bi bi-file-earmark-bar-graph"></i> Relatórios
