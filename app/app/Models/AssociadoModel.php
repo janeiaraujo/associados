@@ -217,7 +217,7 @@ class AssociadoModel extends Model
     /**
      * Get age distribution
      */
-    private function getAgeDistribution(): array
+    public function getAgeDistribution(): array
     {
         $db = \Config\Database::connect();
         
@@ -244,5 +244,26 @@ class AssociadoModel extends Model
         }
         
         return $distribution;
+    }
+
+    /**
+     * Get status distribution
+     */
+    public function getStatusDistribution(): array
+    {
+        $db = \Config\Database::connect();
+        
+        $ativos = $db->table($this->table)
+            ->where('status', 'ativo')
+            ->countAllResults();
+            
+        $inativos = $db->table($this->table)
+            ->where('status', 'inativo')
+            ->countAllResults();
+        
+        return [
+            'ativo' => $ativos,
+            'inativo' => $inativos,
+        ];
     }
 }
