@@ -136,13 +136,22 @@ class Associados extends BaseController
 
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
-        $data['id'] = $id; // Add ID for validation
 
         // Extract contatos
         $contatos = $this->request->getPost('contatos') ?? [];
         
         // Remove from main data
         unset($data['contatos']);
+
+        // Set custom validation rule for CPF update
+        $this->associadoModel->setValidationRule('cpf', [
+            'label' => 'CPF',
+            'rules' => "required|exact_length[11]|is_unique[associados.cpf,id,{$id}]",
+            'errors' => [
+                'is_unique' => 'Este CPF já está cadastrado.',
+                'exact_length' => 'CPF deve ter 11 dígitos.',
+            ]
+        ]);
 
         if (!$this->associadoModel->update($id, $data)) {
             return redirect()->back()
