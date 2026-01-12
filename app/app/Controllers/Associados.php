@@ -34,8 +34,10 @@ class Associados extends BaseController
         $data['pager'] = $this->associadoModel->pager;
         
         // Get filter options
-        $data['unidades'] = $this->associadoModel->getUnidades();
-        $data['funcoes'] = $this->associadoModel->getFuncoes();
+        $unidadeModel = model('UnidadeModel');
+        $funcaoModel = model('FuncaoModel');
+        $data['unidades'] = $unidadeModel->getAtivas();
+        $data['funcoes'] = $funcaoModel->getAtivas();
         $data['filters'] = $filters;
 
         return view('associados/index', $data);
@@ -43,9 +45,14 @@ class Associados extends BaseController
 
     public function create()
     {
+        $unidadeModel = model('UnidadeModel');
+        $funcaoModel = model('FuncaoModel');
+        
         return view('associados/form', [
-            'associado' => ['telefones' => [], 'enderecos' => []],
+            'associado' => ['contatos' => []],
             'action' => 'create',
+            'unidades' => $unidadeModel->getAtivas(),
+            'funcoes' => $funcaoModel->getAtivas(),
             'associadoModel' => $this->associadoModel
         ]);
     }
@@ -55,12 +62,11 @@ class Associados extends BaseController
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
 
-        // Extract telefones and enderecos
-        $telefones = $this->request->getPost('telefones') ?? [];
-        $enderecos = $this->request->getPost('enderecos') ?? [];
+        // Extract contatos
+        $contatos = $this->request->getPost('contatos') ?? [];
         
         // Remove from main data
-        unset($data['telefones'], $data['enderecos']);
+        unset($data['contatos']);
 
         if (!$this->associadoModel->save($data)) {
             return redirect()->back()
@@ -70,32 +76,15 @@ class Associados extends BaseController
 
         $associadoId = $this->associadoModel->getInsertID();
 
-        // Save telefones
-        $telefoneModel = model('AssociadoTelefoneModel');
-        foreach ($telefones as $index => $telefone) {
-            if (!empty($telefone['numero'])) {
-                $telefoneModel->insert([
+        // Save contatos
+        $contatoModel = model('AssociadoContatoModel');
+        foreach ($contatos as $index => $contato) {
+            if (!empty($contato['valor'])) {
+                $contatoModel->insert([
                     'associado_id' => $associadoId,
-                    'tipo' => $telefone['tipo'] ?? 'celular',
-                    'numero' => $telefone['numero'],
-                    'principal' => ($index == 0) ? 1 : 0,
-                ]);
-            }
-        }
-
-        // Save enderecos
-        $enderecoModel = model('AssociadoEnderecoModel');
-        foreach ($enderecos as $index => $endereco) {
-            if (!empty($endereco['logradouro'])) {
-                $enderecoModel->insert([
-                    'associado_id' => $associadoId,
-                    'cep' => $endereco['cep'] ?? null,
-                    'logradouro' => $endereco['logradouro'],
-                    'numero' => $endereco['numero'] ?? null,
-                    'complemento' => $endereco['complemento'] ?? null,
-                    'bairro' => $endereco['bairro'],
-                    'cidade' => $endereco['cidade'],
-                    'estado' => $endereco['estado'],
+                    'tipo' => $contato['tipo'] ?? 'celular',
+                    'valor' => $contato['valor'],
+                    'observacao' => $contato['observacao'] ?? null,
                     'principal' => ($index == 0) ? 1 : 0,
                 ]);
             }
@@ -124,9 +113,14 @@ class Associados extends BaseController
                 ->with('error', 'Associado não encontrado.');
         }
 
+        $unidadeModel = model('UnidadeModel');
+        $funcaoModel = model('FuncaoModel');
+
         return view('associados/form', [
             'associado' => $associado,
             'action' => 'edit',
+            'unidades' => $unidadeModel->getAtivas(),
+            'funcoes' => $funcaoModel->getAtivas(),
             'associadoModel' => $this->associadoModel
         ]);
     }
@@ -143,12 +137,11 @@ class Associados extends BaseController
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
 
-        // Extract telefones and enderecos
-        $telefones = $this->request->getPost('telefones') ?? [];
-        $enderecos = $this->request->getPost('enderecos') ?? [];
+        // Extract contatos
+        $contatos = $this->request->getPost('contatos') ?? [];
         
         // Remove from main data
-        unset($data['telefones'], $data['enderecos']);
+        unset($data['contatos']);
 
         if (!$this->associadoModel->update($id, $data)) {
             return redirect()->back()
@@ -156,36 +149,17 @@ class Associados extends BaseController
                 ->withInput();
         }
 
-        // Update telefones - delete old and insert new
-        $telefoneModel = model('AssociadoTelefoneModel');
-        $telefoneModel->where('associado_id', $id)->delete();
+        // Update contatos - delete old and insert new
+        $contatoModel = model('AssociadoContatoModel');
+        $contatoModel->where('associado_id', $id)->delete();
         
-        foreach ($telefones as $index => $telefone) {
-            if (!empty($telefone['numero'])) {
-                $telefoneModel->insert([
+        foreach ($contatos as $index => $contato) {
+            if (!empty($contato['valor'])) {
+                $contatoModel->insert([
                     'associado_id' => $id,
-                    'tipo' => $telefone['tipo'] ?? 'celular',
-                    'numero' => $telefone['numero'],
-                    'principal' => ($index == 0) ? 1 : 0,
-                ]);
-            }
-        }
-
-        // Update enderecos - delete old and insert new
-        $enderecoModel = model('AssociadoEnderecoModel');
-        $enderecoModel->where('associado_id', $id)->delete();
-        
-        foreach ($enderecos as $index => $endereco) {
-            if (!empty($endereco['logradouro'])) {
-                $enderecoModel->insert([
-                    'associado_id' => $id,
-                    'cep' => $endereco['cep'] ?? null,
-                    'logradouro' => $endereco['logradouro'],
-                    'numero' => $endereco['numero'] ?? null,
-                    'complemento' => $endereco['complemento'] ?? null,
-                    'bairro' => $endereco['bairro'],
-                    'cidade' => $endereco['cidade'],
-                    'estado' => $endereco['estado'],
+                    'tipo' => $contato['tipo'] ?? 'celular',
+                    'valor' => $contato['valor'],
+                    'observacao' => $contato['observacao'] ?? null,
                     'principal' => ($index == 0) ? 1 : 0,
                 ]);
             }

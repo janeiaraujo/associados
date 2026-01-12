@@ -14,15 +14,21 @@ class AssociadoModel extends Model
     protected $protectFields = true;
     protected $allowedFields = [
         'nome',
-        'unidade',
+        'unidade_id',
         'matricula',
         'matricula_docas',
-        'funcao',
+        'funcao_id',
         'data_nascimento',
         'cpf',
         'telefone',
         'email',
-        'endereco',
+        'endereco_cep',
+        'endereco_logradouro',
+        'endereco_numero',
+        'endereco_complemento',
+        'endereco_bairro',
+        'endereco_cidade',
+        'endereco_estado',
         'matricula_sindical',
         'observacoes',
         'status'
@@ -121,29 +127,7 @@ class AssociadoModel extends Model
         return $this->paginate($perPage);
     }
 
-    /**
-     * Get all unidades (distinct)
-     */
-    public function getUnidades(): array
-    {
-        return $this->select('unidade')
-            ->distinct()
-            ->where('unidade IS NOT NULL')
-            ->orderBy('unidade', 'ASC')
-            ->findAll();
-    }
 
-    /**
-     * Get all funcoes (distinct)
-     */
-    public function getFuncoes(): array
-    {
-        return $this->select('funcao')
-            ->distinct()
-            ->where('funcao IS NOT NULL')
-            ->orderBy('funcao', 'ASC')
-            ->findAll();
-    }
 
     /**
      * Get associado by CPF
@@ -185,8 +169,9 @@ class AssociadoModel extends Model
         
         // By unidade
         $byUnidade = $db->table($this->table)
-            ->select('unidade, COUNT(*) as total')
-            ->groupBy('unidade')
+            ->select('unidades.nome as unidade, COUNT(*) as total')
+            ->join('unidades', 'unidades.id = associados.unidade_id', 'left')
+            ->groupBy('associados.unidade_id')
             ->orderBy('total', 'DESC')
             ->limit(5)
             ->get()
@@ -194,8 +179,9 @@ class AssociadoModel extends Model
         
         // By funcao
         $byFuncao = $db->table($this->table)
-            ->select('funcao, COUNT(*) as total')
-            ->groupBy('funcao')
+            ->select('funcoes.nome as funcao, COUNT(*) as total')
+            ->join('funcoes', 'funcoes.id = associados.funcao_id', 'left')
+            ->groupBy('associados.funcao_id')
             ->orderBy('total', 'DESC')
             ->limit(5)
             ->get()
@@ -268,7 +254,7 @@ class AssociadoModel extends Model
     }
 
     /**
-     * Get associado with telefones and enderecos
+     * Get associado with contatos, unidade and funcao
      */
     public function getWithRelations(int $id): ?array
     {
@@ -278,11 +264,27 @@ class AssociadoModel extends Model
             return null;
         }
 
-        $telefoneModel = model('AssociadoTelefoneModel');
-        $enderecoModel = model('AssociadoEnderecoModel');
+        // Load contatos
+        $contatoModel = model('AssociadoContatoModel');
+        $associado['contatos'] = $contatoModel->where('associado_id', $id)->findAll();
 
-        $associado['telefones'] = $telefoneModel->where('associado_id', $id)->findAll();
-        $associado['enderecos'] = $enderecoModel->where('associado_id', $id)->findAll();
+        // Load unidade
+        if (!empty($associado['unidade_id'])) {
+            $unidadeModel = model('UnidadeModel');
+            $unidade = $unidadeModel->find($associado['unidade_id']);
+            $associado['unidade'] = $unidade ? $unidade['nome'] : null;
+        } else {
+            $associado['unidade'] = null;
+        }
+
+        // Load funcao
+        if (!empty($associado['funcao_id'])) {
+            $funcaoModel = model('FuncaoModel');
+            $funcao = $funcaoModel->find($associado['funcao_id']);
+            $associado['funcao'] = $funcao ? $funcao['nome'] : null;
+        } else {
+            $associado['funcao'] = null;
+        }
 
         return $associado;
     }
