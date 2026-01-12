@@ -80,11 +80,16 @@ class AssociadoModel extends Model
      */
     public function searchAssociados(array $filters = [], int $perPage = 20)
     {
+        // Add JOINs for unidade and funcao names
+        $this->select('associados.*, unidades.nome as unidade, funcoes.nome as funcao')
+            ->join('unidades', 'unidades.id = associados.unidade_id', 'left')
+            ->join('funcoes', 'funcoes.id = associados.funcao_id', 'left');
+
         // Search text
         if (!empty($filters['search'])) {
             $search = $filters['search'];
             $this->groupStart()
-                ->like('nome', $search)
+                ->like('associados.nome', $search)
                 ->orLike('cpf', $search)
                 ->orLike('email', $search)
                 ->orLike('matricula_docas', $search)
@@ -94,17 +99,17 @@ class AssociadoModel extends Model
 
         // Filter by unidade
         if (!empty($filters['unidade'])) {
-            $this->where('unidade', $filters['unidade']);
+            $this->where('associados.unidade_id', $filters['unidade']);
         }
 
         // Filter by funcao
         if (!empty($filters['funcao'])) {
-            $this->where('funcao', $filters['funcao']);
+            $this->where('associados.funcao_id', $filters['funcao']);
         }
 
         // Filter by status
         if (!empty($filters['status'])) {
-            $this->where('status', $filters['status']);
+            $this->where('associados.status', $filters['status']);
         }
 
         // Filter by age range
@@ -113,16 +118,16 @@ class AssociadoModel extends Model
             
             if (!empty($filters['idade_max'])) {
                 $minDate = date('Y-m-d', strtotime("-{$filters['idade_max']} years"));
-                $this->where('data_nascimento >=', $minDate);
+                $this->where('associados.data_nascimento >=', $minDate);
             }
             
             if (!empty($filters['idade_min'])) {
                 $maxDate = date('Y-m-d', strtotime("-{$filters['idade_min']} years"));
-                $this->where('data_nascimento <=', $maxDate);
+                $this->where('associados.data_nascimento <=', $maxDate);
             }
         }
 
-        $this->orderBy('nome', 'ASC');
+        $this->orderBy('associados.nome', 'ASC');
 
         return $this->paginate($perPage);
     }

@@ -46,9 +46,9 @@
                         <select class="form-select" name="unidade">
                             <option value="">Todas</option>
                             <?php foreach ($unidades as $unidade): ?>
-                                <option value="<?= esc($unidade['unidade']) ?>" 
-                                        <?= ($filters['unidade'] ?? '') === $unidade['unidade'] ? 'selected' : '' ?>>
-                                    <?= esc($unidade['unidade']) ?>
+                                <option value="<?= esc($unidade['id']) ?>" 
+                                        <?= ($filters['unidade'] ?? '') == $unidade['id'] ? 'selected' : '' ?>>
+                                    <?= esc($unidade['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -58,9 +58,9 @@
                         <select class="form-select" name="funcao">
                             <option value="">Todas</option>
                             <?php foreach ($funcoes as $funcao): ?>
-                                <option value="<?= esc($funcao['funcao']) ?>" 
-                                        <?= ($filters['funcao'] ?? '') === $funcao['funcao'] ? 'selected' : '' ?>>
-                                    <?= esc($funcao['funcao']) ?>
+                                <option value="<?= esc($funcao['id']) ?>" 
+                                        <?= ($filters['funcao'] ?? '') == $funcao['id'] ? 'selected' : '' ?>>
+                                    <?= esc($funcao['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
