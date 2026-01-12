@@ -128,13 +128,13 @@
             </a>
             <?php endif; ?>
             
-            <?php if (has_permission('associados.view')): ?>
+            <?php if (has_permission('unidades.view')): ?>
             <a class="nav-link" href="<?= base_url('unidades') ?>">
                 <i class="bi bi-building"></i> Unidades
             </a>
             <?php endif; ?>
             
-            <?php if (has_permission('associados.view')): ?>
+            <?php if (has_permission('funcoes.view')): ?>
             <a class="nav-link" href="<?= base_url('funcoes') ?>">
                 <i class="bi bi-briefcase"></i> Funções
             </a>

@@ -19,6 +19,18 @@ class PermissionSeeder extends Seeder
             ['key_name' => 'associados.delete', 'description' => 'Excluir associados'],
             ['key_name' => 'associados.import', 'description' => 'Importar associados'],
             
+            // Unidades
+            ['key_name' => 'unidades.view', 'description' => 'Visualizar unidades'],
+            ['key_name' => 'unidades.create', 'description' => 'Criar unidades'],
+            ['key_name' => 'unidades.update', 'description' => 'Editar unidades'],
+            ['key_name' => 'unidades.delete', 'description' => 'Excluir unidades'],
+            
+            // Funções
+            ['key_name' => 'funcoes.view', 'description' => 'Visualizar funções'],
+            ['key_name' => 'funcoes.create', 'description' => 'Criar funções'],
+            ['key_name' => 'funcoes.update', 'description' => 'Editar funções'],
+            ['key_name' => 'funcoes.delete', 'description' => 'Excluir funções'],
+            
             // Relatórios
             ['key_name' => 'relatorios.view', 'description' => 'Visualizar relatórios'],
             ['key_name' => 'relatorios.export', 'description' => 'Exportar relatórios'],

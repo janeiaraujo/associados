@@ -52,6 +52,14 @@ class RoleSeeder extends Seeder
             'associados.update',
             'associados.delete',
             'associados.import',
+            'unidades.view',
+            'unidades.create',
+            'unidades.update',
+            'unidades.delete',
+            'funcoes.view',
+            'funcoes.create',
+            'funcoes.update',
+            'funcoes.delete',
             'relatorios.view',
             'relatorios.export',
         ];
@@ -64,6 +72,8 @@ class RoleSeeder extends Seeder
         $viewerPermissions = [
             'dashboard.view',
             'associados.view',
+            'unidades.view',
+            'funcoes.view',
             'relatorios.view',
         ];
         $viewerPermissionIds = array_map(function($key) use ($permissionsByKey) {
