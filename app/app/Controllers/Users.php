@@ -24,8 +24,10 @@ class Users extends BaseController
         }
 
         $data['users'] = $this->userModel
-            ->select('users.*, roles.name as role_name')
-            ->join('roles', 'roles.id = users.role_id', 'left')
+            ->select('users.*, GROUP_CONCAT(roles.name SEPARATOR ", ") as role_name')
+            ->join('user_roles', 'user_roles.user_id = users.id', 'left')
+            ->join('roles', 'roles.id = user_roles.role_id', 'left')
+            ->groupBy('users.id')
             ->orderBy('users.name', 'ASC')
             ->paginate(20);
         
