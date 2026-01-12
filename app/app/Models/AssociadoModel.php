@@ -50,14 +50,14 @@ class AssociadoModel extends Model
     // Validation
     protected $validationRules = [
         'nome' => 'required|min_length[3]|max_length[255]',
-        'cpf' => 'required|exact_length[14]|is_unique[associados.cpf,id,{id}]',
+        'cpf' => 'required|exact_length[11]|is_unique[associados.cpf,id,{id}]',
         'email' => 'permit_empty|valid_email|max_length[150]',
     ];
 
     protected $validationMessages = [
         'cpf' => [
             'is_unique' => 'Este CPF já está cadastrado.',
-            'exact_length' => 'CPF deve ter 14 caracteres (formato: 000.000.000-00).',
+            'exact_length' => 'CPF deve ter 11 dígitos.',
         ],
     ];
 
