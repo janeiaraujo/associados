@@ -62,6 +62,9 @@ class Associados extends BaseController
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
 
+        // Remove campos antigos/inválidos
+        unset($data['matricula'], $data['observacoes']);
+
         // Extract contatos
         $contatos = $this->request->getPost('contatos') ?? [];
         
@@ -136,6 +139,9 @@ class Associados extends BaseController
 
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
+
+        // Remove campos antigos/inválidos
+        unset($data['matricula'], $data['observacoes']);
 
         // Extract contatos
         $contatos = $this->request->getPost('contatos') ?? [];
