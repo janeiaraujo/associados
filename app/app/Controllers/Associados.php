@@ -136,6 +136,7 @@ class Associados extends BaseController
 
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
+        $data['id'] = $id; // Add ID for validation
 
         // Extract contatos
         $contatos = $this->request->getPost('contatos') ?? [];

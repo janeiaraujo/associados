@@ -154,56 +154,68 @@
                 </div>
             </div>
 
-            <!-- Telefones -->
+            <!-- Contatos -->
             <div class="card shadow-sm mb-3">
                 <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-telephone"></i> Telefones</h5>
-                    <button type="button" class="btn btn-sm btn-light" id="addTelefone">
+                    <h5 class="mb-0"><i class="bi bi-telephone"></i> Contatos</h5>
+                    <button type="button" class="btn btn-sm btn-light" id="addContato">
                         <i class="bi bi-plus-circle"></i> Adicionar
                     </button>
                 </div>
                 <div class="card-body">
-                    <div id="telefonesContainer">
-                        <?php if (!empty($associado['telefones'])): ?>
-                            <?php foreach ($associado['telefones'] as $index => $telefone): ?>
-                                <div class="row g-2 mb-2 telefone-item">
-                                    <div class="col-md-4">
-                                        <select class="form-select form-select-sm" name="telefones[<?= $index ?>][tipo]">
-                                            <option value="celular" <?= $telefone['tipo'] === 'celular' ? 'selected' : '' ?>>Celular</option>
-                                            <option value="residencial" <?= $telefone['tipo'] === 'residencial' ? 'selected' : '' ?>>Residencial</option>
-                                            <option value="comercial" <?= $telefone['tipo'] === 'comercial' ? 'selected' : '' ?>>Comercial</option>
-                                            <option value="outro" <?= $telefone['tipo'] === 'outro' ? 'selected' : '' ?>>Outro</option>
+                    <div id="contatosContainer">
+                        <?php if (!empty($associado['contatos'])): ?>
+                            <?php foreach ($associado['contatos'] as $index => $contato): ?>
+                                <div class="row g-2 mb-2 contato-item">
+                                    <div class="col-md-3">
+                                        <select class="form-select form-select-sm" name="contatos[<?= $index ?>][tipo]">
+                                            <option value="celular" <?= $contato['tipo'] === 'celular' ? 'selected' : '' ?>>Celular</option>
+                                            <option value="fixo" <?= $contato['tipo'] === 'fixo' ? 'selected' : '' ?>>Fixo</option>
+                                            <option value="email" <?= $contato['tipo'] === 'email' ? 'selected' : '' ?>>Email</option>
+                                            <option value="responsavel" <?= $contato['tipo'] === 'responsavel' ? 'selected' : '' ?>>Responsável</option>
+                                            <option value="outro" <?= $contato['tipo'] === 'outro' ? 'selected' : '' ?>>Outro</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control form-control-sm mask-phone" 
-                                               name="telefones[<?= $index ?>][numero]" 
-                                               value="<?= esc($telefone['numero']) ?>" 
-                                               placeholder="(00) 00000-0000">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control form-control-sm" 
+                                               name="contatos[<?= $index ?>][valor]" 
+                                               value="<?= esc($contato['valor']) ?>" 
+                                               placeholder="Telefone, email, etc.">
                                     </div>
-                                    <div class="col-md-2">
-                                        <button type="button" class="btn btn-sm btn-danger w-100 remove-telefone">
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control form-control-sm" 
+                                               name="contatos[<?= $index ?>][observacao]" 
+                                               value="<?= esc($contato['observacao'] ?? '') ?>" 
+                                               placeholder="Observação">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-sm btn-danger w-100 remove-contato">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div class="row g-2 mb-2 telefone-item">
-                                <div class="col-md-4">
-                                    <select class="form-select form-select-sm" name="telefones[0][tipo]">
+                            <div class="row g-2 mb-2 contato-item">
+                                <div class="col-md-3">
+                                    <select class="form-select form-select-sm" name="contatos[0][tipo]">
                                         <option value="celular">Celular</option>
-                                        <option value="residencial">Residencial</option>
-                                        <option value="comercial">Comercial</option>
+                                        <option value="fixo">Fixo</option>
+                                        <option value="email">Email</option>
+                                        <option value="responsavel">Responsável</option>
                                         <option value="outro">Outro</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control form-control-sm mask-phone" 
-                                           name="telefones[0][numero]" placeholder="(00) 00000-0000">
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control form-control-sm" 
+                                           name="contatos[0][valor]" placeholder="Telefone, email, etc.">
                                 </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-sm btn-danger w-100 remove-telefone">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm" 
+                                           name="contatos[0][observacao]" placeholder="Observação">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-sm btn-danger w-100 remove-contato">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -344,43 +356,48 @@ document.addEventListener('input', function(e) {
     }
 });
 
-// Adicionar Telefone
-let telefoneIndex = <?= count($associado['telefones'] ?? [1]) ?>;
-document.getElementById('addTelefone').addEventListener('click', function() {
-    const container = document.getElementById('telefonesContainer');
+// Adicionar Contato
+let contatoIndex = <?= count($associado['contatos'] ?? [1]) ?>;
+document.getElementById('addContato').addEventListener('click', function() {
+    const container = document.getElementById('contatosContainer');
     const html = `
-        <div class="row g-2 mb-2 telefone-item">
-            <div class="col-md-4">
-                <select class="form-select form-select-sm" name="telefones[${telefoneIndex}][tipo]">
+        <div class="row g-2 mb-2 contato-item">
+            <div class="col-md-3">
+                <select class="form-select form-select-sm" name="contatos[${contatoIndex}][tipo]">
                     <option value="celular">Celular</option>
-                    <option value="residencial">Residencial</option>
-                    <option value="comercial">Comercial</option>
+                    <option value="fixo">Fixo</option>
+                    <option value="email">Email</option>
+                    <option value="responsavel">Responsável</option>
                     <option value="outro">Outro</option>
                 </select>
             </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control form-control-sm mask-phone" 
-                       name="telefones[${telefoneIndex}][numero]" placeholder="(00) 00000-0000">
+            <div class="col-md-5">
+                <input type="text" class="form-control form-control-sm" 
+                       name="contatos[${contatoIndex}][valor]" placeholder="Telefone, email, etc.">
             </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-sm btn-danger w-100 remove-telefone">
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" 
+                       name="contatos[${contatoIndex}][observacao]" placeholder="Observação">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-sm btn-danger w-100 remove-contato">
                     <i class="bi bi-trash"></i>
                 </button>
             </div>
         </div>
     `;
     container.insertAdjacentHTML('beforeend', html);
-    telefoneIndex++;
+    contatoIndex++;
 });
 
-// Remover Telefone
+// Remover Contato
 document.addEventListener('click', function(e) {
-    if (e.target.closest('.remove-telefone')) {
-        const item = e.target.closest('.telefone-item');
-        if (document.querySelectorAll('.telefone-item').length > 1) {
+    if (e.target.closest('.remove-contato')) {
+        const item = e.target.closest('.contato-item');
+        if (document.querySelectorAll('.contato-item').length > 1) {
             item.remove();
         } else {
-            alert('Pelo menos um telefone deve ser mantido.');
+            alert('Pelo menos um contato deve ser mantido.');
         }
     }
 });
