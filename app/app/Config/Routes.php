@@ -33,8 +33,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('create', 'Associados::create', ['filter' => 'permission:associados.create']);
         $routes->post('store', 'Associados::store', ['filter' => 'permission:associados.create']);
         $routes->get('edit/(:num)', 'Associados::edit/$1', ['filter' => 'permission:associados.update']);
-        $routes->post('update/(:num)', 'Associados::update/$1', ['filter' => 'permission:associados.update']);
-        $routes->post('delete/(:num)', 'Associados::delete/$1', ['filter' => 'permission:associados.delete']);
+        $routes->put('update/(:num)', 'Associados::update/$1', ['filter' => 'permission:associados.update']);
+        $routes->delete('delete/(:num)', 'Associados::delete/$1', ['filter' => 'permission:associados.delete']);
         $routes->get('view/(:num)', 'Associados::view/$1', ['filter' => 'permission:associados.view']);
         $routes->get('export', 'Associados::export', ['filter' => 'permission:relatorios.export']);
     });
