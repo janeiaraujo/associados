@@ -52,8 +52,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('create', 'Unidades::create', ['filter' => 'permission:unidades.create']);
         $routes->post('store', 'Unidades::store', ['filter' => 'permission:unidades.create']);
         $routes->get('edit/(:num)', 'Unidades::edit/$1', ['filter' => 'permission:unidades.update']);
-        $routes->post('update/(:num)', 'Unidades::update/$1', ['filter' => 'permission:unidades.update']);
-        $routes->post('delete/(:num)', 'Unidades::delete/$1', ['filter' => 'permission:unidades.delete']);
+        $routes->put('update/(:num)', 'Unidades::update/$1', ['filter' => 'permission:unidades.update']);
+        $routes->delete('delete/(:num)', 'Unidades::delete/$1', ['filter' => 'permission:unidades.delete']);
     });
     
     // Funções
@@ -62,8 +62,8 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('create', 'Funcoes::create', ['filter' => 'permission:funcoes.create']);
         $routes->post('store', 'Funcoes::store', ['filter' => 'permission:funcoes.create']);
         $routes->get('edit/(:num)', 'Funcoes::edit/$1', ['filter' => 'permission:funcoes.update']);
-        $routes->post('update/(:num)', 'Funcoes::update/$1', ['filter' => 'permission:funcoes.update']);
-        $routes->post('delete/(:num)', 'Funcoes::delete/$1', ['filter' => 'permission:funcoes.delete']);
+        $routes->put('update/(:num)', 'Funcoes::update/$1', ['filter' => 'permission:funcoes.update']);
+        $routes->delete('delete/(:num)', 'Funcoes::delete/$1', ['filter' => 'permission:funcoes.delete']);
     });
     
     // Relatórios
