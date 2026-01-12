@@ -31,7 +31,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->group('associados', static function ($routes) {
         $routes->get('/', 'Associados::index', ['filter' => 'permission:associados.view']);
         $routes->get('create', 'Associados::create', ['filter' => 'permission:associados.create']);
-        $routes->post('create', 'Associados::store', ['filter' => 'permission:associados.create']);
+        $routes->post('store', 'Associados::store', ['filter' => 'permission:associados.create']);
         $routes->get('edit/(:num)', 'Associados::edit/$1', ['filter' => 'permission:associados.update']);
         $routes->post('update/(:num)', 'Associados::update/$1', ['filter' => 'permission:associados.update']);
         $routes->post('delete/(:num)', 'Associados::delete/$1', ['filter' => 'permission:associados.delete']);
@@ -44,6 +44,26 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->get('/', 'Importacao::index', ['filter' => 'permission:associados.import']);
         $routes->post('upload', 'Importacao::upload', ['filter' => 'permission:associados.import']);
         $routes->get('downloadTemplate', 'Importacao::downloadTemplate', ['filter' => 'permission:associados.import']);
+    });
+    
+    // Unidades
+    $routes->group('unidades', static function ($routes) {
+        $routes->get('/', 'Unidades::index', ['filter' => 'permission:unidades.view']);
+        $routes->get('create', 'Unidades::create', ['filter' => 'permission:unidades.create']);
+        $routes->post('store', 'Unidades::store', ['filter' => 'permission:unidades.create']);
+        $routes->get('edit/(:num)', 'Unidades::edit/$1', ['filter' => 'permission:unidades.update']);
+        $routes->post('update/(:num)', 'Unidades::update/$1', ['filter' => 'permission:unidades.update']);
+        $routes->post('delete/(:num)', 'Unidades::delete/$1', ['filter' => 'permission:unidades.delete']);
+    });
+    
+    // Funções
+    $routes->group('funcoes', static function ($routes) {
+        $routes->get('/', 'Funcoes::index', ['filter' => 'permission:funcoes.view']);
+        $routes->get('create', 'Funcoes::create', ['filter' => 'permission:funcoes.create']);
+        $routes->post('store', 'Funcoes::store', ['filter' => 'permission:funcoes.create']);
+        $routes->get('edit/(:num)', 'Funcoes::edit/$1', ['filter' => 'permission:funcoes.update']);
+        $routes->post('update/(:num)', 'Funcoes::update/$1', ['filter' => 'permission:funcoes.update']);
+        $routes->post('delete/(:num)', 'Funcoes::delete/$1', ['filter' => 'permission:funcoes.delete']);
     });
     
     // Relatórios
