@@ -72,12 +72,10 @@ class AssociadoModel extends Model
      */
     public function searchAssociados(array $filters = [], int $perPage = 20)
     {
-        $builder = $this->builder();
-
         // Search text
         if (!empty($filters['search'])) {
             $search = $filters['search'];
-            $builder->groupStart()
+            $this->groupStart()
                 ->like('nome', $search)
                 ->orLike('cpf', $search)
                 ->orLike('email', $search)
@@ -88,17 +86,17 @@ class AssociadoModel extends Model
 
         // Filter by unidade
         if (!empty($filters['unidade'])) {
-            $builder->where('unidade', $filters['unidade']);
+            $this->where('unidade', $filters['unidade']);
         }
 
         // Filter by funcao
         if (!empty($filters['funcao'])) {
-            $builder->where('funcao', $filters['funcao']);
+            $this->where('funcao', $filters['funcao']);
         }
 
         // Filter by status
         if (!empty($filters['status'])) {
-            $builder->where('status', $filters['status']);
+            $this->where('status', $filters['status']);
         }
 
         // Filter by age range
@@ -107,18 +105,18 @@ class AssociadoModel extends Model
             
             if (!empty($filters['idade_max'])) {
                 $minDate = date('Y-m-d', strtotime("-{$filters['idade_max']} years"));
-                $builder->where('data_nascimento >=', $minDate);
+                $this->where('data_nascimento >=', $minDate);
             }
             
             if (!empty($filters['idade_min'])) {
                 $maxDate = date('Y-m-d', strtotime("-{$filters['idade_min']} years"));
-                $builder->where('data_nascimento <=', $maxDate);
+                $this->where('data_nascimento <=', $maxDate);
             }
         }
 
-        $builder->orderBy('nome', 'ASC');
+        $this->orderBy('nome', 'ASC');
 
-        return $builder->paginate($perPage);
+        return $this->paginate($perPage);
     }
 
     /**
