@@ -39,9 +39,16 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="text-muted small">Matrícula</label>
+                        <label class="text-muted small">REGISTRO</label>
                         <div class="fw-bold">
-                            <?= !empty($associado['matricula']) ? esc($associado['matricula']) : '<span class="text-muted">-</span>' ?>
+                            <?= !empty($associado['registro']) ? esc($associado['registro']) : '<span class="text-muted">-</span>' ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="text-muted small">Matrícula Sindical</label>
+                        <div class="fw-bold">
+                            <?= !empty($associado['matricula_sindical']) ? esc($associado['matricula_sindical']) : '<span class="text-muted">-</span>' ?>
                         </div>
                     </div>
 
@@ -72,6 +79,21 @@
                     <div class="col-md-6">
                         <label class="text-muted small">Função</label>
                         <div class="fw-bold"><?= esc($associado['funcao']) ?></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="text-muted small">Tipo de Aposentadoria</label>
+                        <div class="fw-bold">
+                            <?php 
+                            $tipo = $associado['tipo_aposentado'] ?? 'NAO_APOSENTADO';
+                            if ($tipo === 'CLT'): ?>
+                                <span class="badge bg-info">Aposentado CLT</span>
+                            <?php elseif ($tipo === 'PENSIONISTA'): ?>
+                                <span class="badge bg-warning">Aposentado Pensionista</span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">Não Aposentado</span>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <!-- Contatos -->

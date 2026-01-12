@@ -15,9 +15,11 @@ class AssociadoModel extends Model
     protected $allowedFields = [
         'nome',
         'unidade_id',
-        'matricula',
+        'registro',
+        'matricula_sindical',
         'matricula_docas',
         'funcao_id',
+        'tipo_aposentado',
         'data_nascimento',
         'cpf',
         'telefone',
@@ -29,7 +31,6 @@ class AssociadoModel extends Model
         'endereco_bairro',
         'endereco_cidade',
         'endereco_estado',
-        'matricula_sindical',
         'status'
     ];
 

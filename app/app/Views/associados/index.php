@@ -107,7 +107,6 @@
                         <tr>
                             <th>Nome</th>
                             <th>CPF</th>
-                            <th>Matrícula</th>
                             <th>Unidade</th>
                             <th>Função</th>
                             <th>Idade</th>
@@ -125,9 +124,6 @@
                                 <?php endif; ?>
                             </td>
                             <td><?= format_cpf($associado['cpf']) ?></td>
-                            <td>
-                                <?= !empty($associado['matricula']) ? esc($associado['matricula']) : '<span class="text-muted">-</span>' ?>
-                            </td>
                             <td><?= esc($associado['unidade']) ?></td>
                             <td><?= esc($associado['funcao']) ?></td>
                             <td><?= calculate_age($associado['data_nascimento']) ?> anos</td>

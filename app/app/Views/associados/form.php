@@ -66,12 +66,22 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="matricula" class="form-label">Matrícula</label>
-                            <input type="text" class="form-control <?= session('errors.matricula') ? 'is-invalid' : '' ?>" 
-                                   id="matricula" name="matricula" 
-                                   value="<?= old('matricula', $associado['matricula'] ?? '') ?>">
-                            <?php if (session('errors.matricula')): ?>
-                                <div class="invalid-feedback"><?= session('errors.matricula') ?></div>
+                            <label for="registro" class="form-label">REGISTRO</label>
+                            <input type="text" class="form-control <?= session('errors.registro') ? 'is-invalid' : '' ?>" 
+                                   id="registro" name="registro" 
+                                   value="<?= old('registro', $associado['registro'] ?? '') ?>">
+                            <?php if (session('errors.registro')): ?>
+                                <div class="invalid-feedback"><?= session('errors.registro') ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="matricula_sindical" class="form-label">Matrícula Sindical</label>
+                            <input type="text" class="form-control <?= session('errors.matricula_sindical') ? 'is-invalid' : '' ?>" 
+                                   id="matricula_sindical" name="matricula_sindical" 
+                                   value="<?= old('matricula_sindical', $associado['matricula_sindical'] ?? '') ?>">
+                            <?php if (session('errors.matricula_sindical')): ?>
+                                <div class="invalid-feedback"><?= session('errors.matricula_sindical') ?></div>
                             <?php endif; ?>
                         </div>
 
@@ -126,6 +136,25 @@
                             </select>
                             <?php if (session('errors.funcao_id')): ?>
                                 <div class="invalid-feedback"><?= session('errors.funcao_id') ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="tipo_aposentado" class="form-label">Tipo de Aposentadoria</label>
+                            <select class="form-select <?= session('errors.tipo_aposentado') ? 'is-invalid' : '' ?>" 
+                                    id="tipo_aposentado" name="tipo_aposentado">
+                                <option value="NAO_APOSENTADO" <?= old('tipo_aposentado', $associado['tipo_aposentado'] ?? 'NAO_APOSENTADO') == 'NAO_APOSENTADO' ? 'selected' : '' ?>>
+                                    Não Aposentado
+                                </option>
+                                <option value="CLT" <?= old('tipo_aposentado', $associado['tipo_aposentado'] ?? '') == 'CLT' ? 'selected' : '' ?>>
+                                    Aposentado CLT
+                                </option>
+                                <option value="PENSIONISTA" <?= old('tipo_aposentado', $associado['tipo_aposentado'] ?? '') == 'PENSIONISTA' ? 'selected' : '' ?>>
+                                    Aposentado Pensionista
+                                </option>
+                            </select>
+                            <?php if (session('errors.tipo_aposentado')): ?>
+                                <div class="invalid-feedback"><?= session('errors.tipo_aposentado') ?></div>
                             <?php endif; ?>
                         </div>
 
