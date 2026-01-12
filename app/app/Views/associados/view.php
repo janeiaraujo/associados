@@ -74,16 +74,19 @@
                         <div class="fw-bold"><?= esc($associado['funcao']) ?></div>
                     </div>
 
-                    <!-- Telefones -->
+                    <!-- Contatos -->
                     <div class="col-12">
-                        <label class="text-muted small">Telefones</label>
-                        <?php if (!empty($associado['telefones'])): ?>
+                        <label class="text-muted small">Contatos</label>
+                        <?php if (!empty($associado['contatos'])): ?>
                             <div class="d-flex flex-wrap gap-2">
-                                <?php foreach ($associado['telefones'] as $telefone): ?>
+                                <?php foreach ($associado['contatos'] as $contato): ?>
                                     <div class="badge bg-info text-dark">
-                                        <i class="bi bi-telephone"></i>
-                                        <?= esc($telefone['numero']) ?>
-                                        <span class="ms-1">(<?= ucfirst($telefone['tipo']) ?>)</span>
+                                        <i class="bi bi-<?= $contato['tipo'] === 'telefone' ? 'telephone' : ($contato['tipo'] === 'email' ? 'envelope' : 'chat-dots') ?>"></i>
+                                        <?= esc($contato['valor']) ?>
+                                        <span class="ms-1">(<?= ucfirst($contato['tipo']) ?>)</span>
+                                        <?php if ($contato['principal']): ?>
+                                            <span class="ms-1">★</span>
+                                        <?php endif; ?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>
