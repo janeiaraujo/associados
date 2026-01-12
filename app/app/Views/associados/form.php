@@ -287,19 +287,6 @@
                 </div>
             </div>
 
-            <!-- Observações -->
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <label for="observacoes" class="form-label">Observações</label>
-                    <textarea class="form-control <?= session('errors.observacoes') ? 'is-invalid' : '' ?>" 
-                              id="observacoes" name="observacoes" 
-                              rows="3"><?= old('observacoes', $associado['observacoes'] ?? '') ?></textarea>
-                    <?php if (session('errors.observacoes')): ?>
-                        <div class="invalid-feedback"><?= session('errors.observacoes') ?></div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
             <!-- Buttons -->
             <div class="d-flex gap-2 justify-content-end mb-4">
                 <a href="<?= base_url('associados') ?>" class="btn btn-secondary">

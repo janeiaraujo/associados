@@ -114,13 +114,6 @@
                         <?php endif; ?>
                     </div>
 
-                    <?php if (!empty($associado['observacoes'])): ?>
-                    <div class="col-12">
-                        <label class="text-muted small">Observações</label>
-                        <div class="fw-bold"><?= nl2br(esc($associado['observacoes'])) ?></div>
-                    </div>
-                    <?php endif; ?>
-
                     <div class="col-md-6">
                         <label class="text-muted small">Cadastrado em</label>
                         <div class="fw-bold"><?= format_datetime($associado['created_at']) ?></div>

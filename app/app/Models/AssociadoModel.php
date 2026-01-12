@@ -30,7 +30,6 @@ class AssociadoModel extends Model
         'endereco_cidade',
         'endereco_estado',
         'matricula_sindical',
-        'observacoes',
         'status'
     ];
 
