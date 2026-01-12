@@ -36,7 +36,7 @@ class AuditLogModel extends Model
     protected $useTimestamps = true;
     protected $dateFormat = 'datetime';
     protected $createdField = 'created_at';
-    protected $updatedField = null;
+    protected $updatedField = '';
     protected $deletedField = null;
 
     // Validation
@@ -61,6 +61,15 @@ class AuditLogModel extends Model
     ): bool {
         $request = \Config\Services::request();
         
+        // Get user agent safely (CLI doesn't have user agent)
+        $userAgent = 'CLI';
+        if (method_exists($request, 'getUserAgent')) {
+            $userAgentObj = $request->getUserAgent();
+            if ($userAgentObj) {
+                $userAgent = $userAgentObj->getAgentString();
+            }
+        }
+        
         $data = [
             'entity' => $entity,
             'entity_id' => $entityId,
@@ -69,7 +78,7 @@ class AuditLogModel extends Model
             'after_data' => $afterData ? json_encode($afterData) : null,
             'user_id' => $userId,
             'ip' => $request->getIPAddress(),
-            'user_agent' => $request->getUserAgent()->getAgentString(),
+            'user_agent' => $userAgent,
         ];
         
         return $this->insert($data) !== false;

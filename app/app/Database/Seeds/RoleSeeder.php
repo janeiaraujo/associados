@@ -29,7 +29,8 @@ class RoleSeeder extends Seeder
 
         $roleIds = [];
         foreach ($roles as $role) {
-            $roleIds[$role['name']] = $roleModel->insert($role);
+            $roleModel->insert($role);
+            $roleIds[$role['name']] = $roleModel->getInsertID();
         }
 
         // Get all permissions

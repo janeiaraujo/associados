@@ -12,7 +12,7 @@ $routes->get('/', static function() {
 });
 
 // Auth routes (no authentication required)
-$routes->group('', ['filter' => ''], static function ($routes) {
+$routes->group('', static function ($routes) {
     $routes->get('login', 'Auth::login');
     $routes->post('login', 'Auth::loginPost');
     $routes->get('logout', 'Auth::logout');
