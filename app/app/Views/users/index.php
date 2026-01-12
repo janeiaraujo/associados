@@ -48,7 +48,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <?php if ($user['status'] === 'ativo'): ?>
+                                    <?php if ($user['is_active']): ?>
                                         <span class="badge bg-success">Ativo</span>
                                     <?php else: ?>
                                         <span class="badge bg-danger">Inativo</span>
