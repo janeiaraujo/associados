@@ -44,8 +44,9 @@ class Associados extends BaseController
     public function create()
     {
         return view('associados/form', [
-            'associado' => null,
-            'action' => 'create'
+            'associado' => ['telefones' => [], 'enderecos' => []],
+            'action' => 'create',
+            'associadoModel' => $this->associadoModel
         ]);
     }
 
@@ -54,6 +55,13 @@ class Associados extends BaseController
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
 
+        // Extract telefones and enderecos
+        $telefones = $this->request->getPost('telefones') ?? [];
+        $enderecos = $this->request->getPost('enderecos') ?? [];
+        
+        // Remove from main data
+        unset($data['telefones'], $data['enderecos']);
+
         if (!$this->associadoModel->save($data)) {
             return redirect()->back()
                 ->with('error', 'Erro ao criar associado: ' . implode(', ', $this->associadoModel->errors()))
@@ -61,6 +69,37 @@ class Associados extends BaseController
         }
 
         $associadoId = $this->associadoModel->getInsertID();
+
+        // Save telefones
+        $telefoneModel = model('AssociadoTelefoneModel');
+        foreach ($telefones as $index => $telefone) {
+            if (!empty($telefone['numero'])) {
+                $telefoneModel->insert([
+                    'associado_id' => $associadoId,
+                    'tipo' => $telefone['tipo'] ?? 'celular',
+                    'numero' => $telefone['numero'],
+                    'principal' => ($index == 0) ? 1 : 0,
+                ]);
+            }
+        }
+
+        // Save enderecos
+        $enderecoModel = model('AssociadoEnderecoModel');
+        foreach ($enderecos as $index => $endereco) {
+            if (!empty($endereco['logradouro'])) {
+                $enderecoModel->insert([
+                    'associado_id' => $associadoId,
+                    'cep' => $endereco['cep'] ?? null,
+                    'logradouro' => $endereco['logradouro'],
+                    'numero' => $endereco['numero'] ?? null,
+                    'complemento' => $endereco['complemento'] ?? null,
+                    'bairro' => $endereco['bairro'],
+                    'cidade' => $endereco['cidade'],
+                    'estado' => $endereco['estado'],
+                    'principal' => ($index == 0) ? 1 : 0,
+                ]);
+            }
+        }
 
         // Log action
         $this->auditLogModel->logAction(
@@ -78,7 +117,7 @@ class Associados extends BaseController
 
     public function edit($id)
     {
-        $associado = $this->associadoModel->find($id);
+        $associado = $this->associadoModel->getWithRelations($id);
 
         if (!$associado) {
             return redirect()->to('/associados')
@@ -87,7 +126,8 @@ class Associados extends BaseController
 
         return view('associados/form', [
             'associado' => $associado,
-            'action' => 'edit'
+            'action' => 'edit',
+            'associadoModel' => $this->associadoModel
         ]);
     }
 
@@ -103,10 +143,52 @@ class Associados extends BaseController
         $data = $this->request->getPost();
         $data['cpf'] = clean_cpf($data['cpf']);
 
+        // Extract telefones and enderecos
+        $telefones = $this->request->getPost('telefones') ?? [];
+        $enderecos = $this->request->getPost('enderecos') ?? [];
+        
+        // Remove from main data
+        unset($data['telefones'], $data['enderecos']);
+
         if (!$this->associadoModel->update($id, $data)) {
             return redirect()->back()
                 ->with('error', 'Erro ao atualizar associado: ' . implode(', ', $this->associadoModel->errors()))
                 ->withInput();
+        }
+
+        // Update telefones - delete old and insert new
+        $telefoneModel = model('AssociadoTelefoneModel');
+        $telefoneModel->where('associado_id', $id)->delete();
+        
+        foreach ($telefones as $index => $telefone) {
+            if (!empty($telefone['numero'])) {
+                $telefoneModel->insert([
+                    'associado_id' => $id,
+                    'tipo' => $telefone['tipo'] ?? 'celular',
+                    'numero' => $telefone['numero'],
+                    'principal' => ($index == 0) ? 1 : 0,
+                ]);
+            }
+        }
+
+        // Update enderecos - delete old and insert new
+        $enderecoModel = model('AssociadoEnderecoModel');
+        $enderecoModel->where('associado_id', $id)->delete();
+        
+        foreach ($enderecos as $index => $endereco) {
+            if (!empty($endereco['logradouro'])) {
+                $enderecoModel->insert([
+                    'associado_id' => $id,
+                    'cep' => $endereco['cep'] ?? null,
+                    'logradouro' => $endereco['logradouro'],
+                    'numero' => $endereco['numero'] ?? null,
+                    'complemento' => $endereco['complemento'] ?? null,
+                    'bairro' => $endereco['bairro'],
+                    'cidade' => $endereco['cidade'],
+                    'estado' => $endereco['estado'],
+                    'principal' => ($index == 0) ? 1 : 0,
+                ]);
+            }
         }
 
         // Log action
@@ -153,7 +235,7 @@ class Associados extends BaseController
 
     public function view($id)
     {
-        $associado = $this->associadoModel->find($id);
+        $associado = $this->associadoModel->getWithRelations($id);
 
         if (!$associado) {
             return redirect()->to('/associados')

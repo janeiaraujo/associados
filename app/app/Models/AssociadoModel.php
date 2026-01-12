@@ -15,6 +15,7 @@ class AssociadoModel extends Model
     protected $allowedFields = [
         'nome',
         'unidade',
+        'matricula',
         'matricula_docas',
         'funcao',
         'data_nascimento',
@@ -23,6 +24,7 @@ class AssociadoModel extends Model
         'email',
         'endereco',
         'matricula_sindical',
+        'observacoes',
         'status'
     ];
 
@@ -264,4 +266,25 @@ class AssociadoModel extends Model
             'inativo' => $inativos,
         ];
     }
+
+    /**
+     * Get associado with telefones and enderecos
+     */
+    public function getWithRelations(int $id): ?array
+    {
+        $associado = $this->find($id);
+        
+        if (!$associado) {
+            return null;
+        }
+
+        $telefoneModel = model('AssociadoTelefoneModel');
+        $enderecoModel = model('AssociadoEnderecoModel');
+
+        $associado['telefones'] = $telefoneModel->where('associado_id', $id)->findAll();
+        $associado['enderecos'] = $enderecoModel->where('associado_id', $id)->findAll();
+
+        return $associado;
+    }
 }
+

@@ -39,6 +39,13 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label class="text-muted small">Matrícula</label>
+                        <div class="fw-bold">
+                            <?= !empty($associado['matricula']) ? esc($associado['matricula']) : '<span class="text-muted">-</span>' ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <label class="text-muted small">Data de Nascimento</label>
                         <div class="fw-bold">
                             <?= format_date($associado['data_nascimento']) ?>
@@ -58,17 +65,6 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="text-muted small">Telefone</label>
-                        <div class="fw-bold">
-                            <?php if (!empty($associado['telefone'])): ?>
-                                <a href="tel:<?= esc($associado['telefone']) ?>"><?= esc($associado['telefone']) ?></a>
-                            <?php else: ?>
-                                <span class="text-muted">-</span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <label class="text-muted small">Unidade</label>
                         <div class="fw-bold"><?= esc($associado['unidade']) ?></div>
                     </div>
@@ -76,6 +72,48 @@
                     <div class="col-md-6">
                         <label class="text-muted small">Função</label>
                         <div class="fw-bold"><?= esc($associado['funcao']) ?></div>
+                    </div>
+
+                    <!-- Telefones -->
+                    <div class="col-12">
+                        <label class="text-muted small">Telefones</label>
+                        <?php if (!empty($associado['telefones'])): ?>
+                            <div class="d-flex flex-wrap gap-2">
+                                <?php foreach ($associado['telefones'] as $telefone): ?>
+                                    <div class="badge bg-info text-dark">
+                                        <i class="bi bi-telephone"></i>
+                                        <?= esc($telefone['numero']) ?>
+                                        <span class="ms-1">(<?= ucfirst($telefone['tipo']) ?>)</span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else: ?>
+                            <div class="text-muted">-</div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Endereços -->
+                    <div class="col-12">
+                        <label class="text-muted small">Endereços</label>
+                        <?php if (!empty($associado['enderecos'])): ?>
+                            <?php foreach ($associado['enderecos'] as $index => $endereco): ?>
+                                <div class="border rounded p-3 mb-2 <?= $endereco['principal'] ? 'border-primary' : '' ?>">
+                                    <?php if ($endereco['principal']): ?>
+                                        <span class="badge bg-primary mb-2">Principal</span>
+                                    <?php endif; ?>
+                                    <div>
+                                        <?= esc($endereco['logradouro']) ?><?= !empty($endereco['numero']) ? ', ' . esc($endereco['numero']) : '' ?>
+                                        <?= !empty($endereco['complemento']) ? ' - ' . esc($endereco['complemento']) : '' ?>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <?= esc($endereco['bairro']) ?> - <?= esc($endereco['cidade']) ?>/<?= strtoupper(esc($endereco['estado'])) ?>
+                                        <?= !empty($endereco['cep']) ? ' - CEP: ' . esc($endereco['cep']) : '' ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="text-muted">-</div>
+                        <?php endif; ?>
                     </div>
 
                     <?php if (!empty($associado['observacoes'])): ?>
