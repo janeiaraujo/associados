@@ -36,12 +36,14 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
         $routes->post('update/(:num)', 'Associados::update/$1', ['filter' => 'permission:associados.update']);
         $routes->post('delete/(:num)', 'Associados::delete/$1', ['filter' => 'permission:associados.delete']);
         $routes->get('view/(:num)', 'Associados::view/$1', ['filter' => 'permission:associados.view']);
+        $routes->get('export', 'Associados::export', ['filter' => 'permission:relatorios.export']);
     });
     
     // Importação
     $routes->group('importacao', static function ($routes) {
         $routes->get('/', 'Importacao::index', ['filter' => 'permission:associados.import']);
         $routes->post('upload', 'Importacao::upload', ['filter' => 'permission:associados.import']);
+        $routes->get('downloadTemplate', 'Importacao::downloadTemplate', ['filter' => 'permission:associados.import']);
     });
     
     // Relatórios
