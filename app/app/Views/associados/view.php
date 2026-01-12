@@ -92,25 +92,23 @@
                         <?php endif; ?>
                     </div>
 
-                    <!-- Endereços -->
+                    <!-- Endereço -->
                     <div class="col-12">
-                        <label class="text-muted small">Endereços</label>
-                        <?php if (!empty($associado['enderecos'])): ?>
-                            <?php foreach ($associado['enderecos'] as $index => $endereco): ?>
-                                <div class="border rounded p-3 mb-2 <?= $endereco['principal'] ? 'border-primary' : '' ?>">
-                                    <?php if ($endereco['principal']): ?>
-                                        <span class="badge bg-primary mb-2">Principal</span>
-                                    <?php endif; ?>
-                                    <div>
-                                        <?= esc($endereco['logradouro']) ?><?= !empty($endereco['numero']) ? ', ' . esc($endereco['numero']) : '' ?>
-                                        <?= !empty($endereco['complemento']) ? ' - ' . esc($endereco['complemento']) : '' ?>
-                                    </div>
-                                    <div class="text-muted small">
-                                        <?= esc($endereco['bairro']) ?> - <?= esc($endereco['cidade']) ?>/<?= strtoupper(esc($endereco['estado'])) ?>
-                                        <?= !empty($endereco['cep']) ? ' - CEP: ' . esc($endereco['cep']) : '' ?>
-                                    </div>
+                        <label class="text-muted small">Endereço</label>
+                        <?php if (!empty($associado['endereco_logradouro']) || !empty($associado['endereco_cep'])): ?>
+                            <div class="border rounded p-3">
+                                <div>
+                                    <?= esc($associado['endereco_logradouro'] ?? '') ?>
+                                    <?= !empty($associado['endereco_numero']) ? ', ' . esc($associado['endereco_numero']) : '' ?>
+                                    <?= !empty($associado['endereco_complemento']) ? ' - ' . esc($associado['endereco_complemento']) : '' ?>
                                 </div>
-                            <?php endforeach; ?>
+                                <div class="text-muted small">
+                                    <?= esc($associado['endereco_bairro'] ?? '') ?> 
+                                    <?= !empty($associado['endereco_cidade']) ? ' - ' . esc($associado['endereco_cidade']) : '' ?>
+                                    <?= !empty($associado['endereco_estado']) ? '/' . strtoupper(esc($associado['endereco_estado'])) : '' ?>
+                                    <?= !empty($associado['endereco_cep']) ? ' - CEP: ' . esc($associado['endereco_cep']) : '' ?>
+                                </div>
+                            </div>
                         <?php else: ?>
                             <div class="text-muted">-</div>
                         <?php endif; ?>

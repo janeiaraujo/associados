@@ -213,142 +213,76 @@
                 </div>
             </div>
 
-            <!-- Endereços -->
+            <!-- Endereço -->
             <div class="card shadow-sm mb-3">
-                <div class="card-header bg-warning d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Endereços</h5>
-                    <button type="button" class="btn btn-sm btn-dark" id="addEndereco">
-                        <i class="bi bi-plus-circle"></i> Adicionar
-                    </button>
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Endereço</h5>
                 </div>
                 <div class="card-body">
-                    <div id="enderecosContainer">
-                        <?php if (!empty($associado['enderecos'])): ?>
-                            <?php foreach ($associado['enderecos'] as $index => $endereco): ?>
-                                <div class="endereco-item border rounded p-3 mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <strong><?= $index === 0 ? 'Endereço Principal' : 'Endereço ' . ($index + 1) ?></strong>
-                                        <button type="button" class="btn btn-sm btn-danger remove-endereco">
-                                            <i class="bi bi-trash"></i> Remover
-                                        </button>
-                                    </div>
-                                    <div class="row g-2">
-                                        <div class="col-md-3">
-                                            <div class="input-group input-group-sm">
-                                                <input type="text" class="form-control mask-cep buscar-cep" 
-                                                       name="enderecos[<?= $index ?>][cep]" 
-                                                       value="<?= esc($endereco['cep'] ?? '') ?>" 
-                                                       placeholder="CEP"
-                                                       data-index="<?= $index ?>">
-                                                <button type="button" class="btn btn-outline-primary btn-buscar-cep" data-index="<?= $index ?>">
-                                                    <i class="bi bi-search"></i>
-                                                </button>
-                                            </div>
-                                            <small class="text-muted">Ex: 01001-000</small>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <input type="text" class="form-control form-control-sm endereco-logradouro" 
-                                                   name="enderecos[<?= $index ?>][logradouro]" 
-                                                   value="<?= esc($endereco['logradouro']) ?>" 
-                                                   placeholder="Logradouro"
-                                                   data-index="<?= $index ?>">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" 
-                                                   name="enderecos[<?= $index ?>][numero]" 
-                                                   value="<?= esc($endereco['numero'] ?? '') ?>" 
-                                                   placeholder="Nº">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control form-control-sm endereco-complemento" 
-                                                   name="enderecos[<?= $index ?>][complemento]" 
-                                                   value="<?= esc($endereco['complemento'] ?? '') ?>" 
-                                                   placeholder="Complemento"
-                                                   data-index="<?= $index ?>">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input type="text" class="form-control form-control-sm endereco-bairro" 
-                                                   name="enderecos[<?= $index ?>][bairro]" 
-                                                   value="<?= esc($endereco['bairro']) ?>" 
-                                                   placeholder="Bairro"
-                                                   data-index="<?= $index ?>">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <input type="text" class="form-control form-control-sm endereco-cidade" 
-                                                   name="enderecos[<?= $index ?>][cidade]" 
-                                                   value="<?= esc($endereco['cidade']) ?>" 
-                                                   placeholder="Cidade"
-                                                   data-index="<?= $index ?>">
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" class="form-control form-control-sm text-uppercase endereco-estado" 
-                                                   name="enderecos[<?= $index ?>][estado]" 
-                                                   value="<?= esc($endereco['estado']) ?>" 
-                                                   placeholder="UF" maxlength="2"
-                                                   data-index="<?= $index ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <div class="endereco-item border rounded p-3 mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <strong>Endereço Principal</strong>
-                                    <button type="button" class="btn btn-sm btn-danger remove-endereco">
-                                        <i class="bi bi-trash"></i> Remover
-                                    </button>
-                                </div>
-                                <div class="row g-2">
-                                    <div class="col-md-3">
-                                        <div class="input-group input-group-sm">
-                                            <input type="text" class="form-control mask-cep buscar-cep" 
-                                                   name="enderecos[0][cep]" 
-                                                   placeholder="CEP"
-                                                   data-index="0">
-                                            <button type="button" class="btn btn-outline-primary btn-buscar-cep" data-index="0">
-                                                <i class="bi bi-search"></i>
-                                            </button>
-                                        </div>
-                                        <small class="text-muted">Ex: 01001-000</small>
-                                    </div>
-                                    <div class="col-md-7">
-                                        <input type="text" class="form-control form-control-sm endereco-logradouro" 
-                                               name="enderecos[0][logradouro]" 
-                                               placeholder="Logradouro"
-                                               data-index="0">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control form-control-sm" 
-                                               name="enderecos[0][numero]" 
-                                               placeholder="Nº">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control form-control-sm endereco-complemento" 
-                                               name="enderecos[0][complemento]" 
-                                               placeholder="Complemento"
-                                               data-index="0">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control form-control-sm endereco-bairro" 
-                                               name="enderecos[0][bairro]" 
-                                               placeholder="Bairro"
-                                               data-index="0">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="text" class="form-control form-control-sm endereco-cidade" 
-                                               name="enderecos[0][cidade]" 
-                                               placeholder="Cidade"
-                                               data-index="0">
-                                    </div>
-                                    <div class="col-md-1">
-                                        <input type="text" class="form-control form-control-sm text-uppercase endereco-estado" 
-                                               name="enderecos[0][estado]" 
-                                               placeholder="UF" maxlength="2"
-                                               data-index="0">
-                                    </div>
-                                </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="endereco_cep" class="form-label">CEP</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control mask-cep" 
+                                       id="endereco_cep"
+                                       name="endereco_cep" 
+                                       value="<?= old('endereco_cep', $associado['endereco_cep'] ?? '') ?>" 
+                                       placeholder="00000-000">
+                                <button type="button" class="btn btn-outline-primary" id="btnBuscarCep">
+                                    <i class="bi bi-search"></i>
+                                </button>
                             </div>
-                        <?php endif; ?>
+                            <small class="text-muted">Ex: 01001-000</small>
+                        </div>
+                        <div class="col-md-7">
+                            <label for="endereco_logradouro" class="form-label">Logradouro</label>
+                            <input type="text" class="form-control" 
+                                   id="endereco_logradouro"
+                                   name="endereco_logradouro" 
+                                   value="<?= old('endereco_logradouro', $associado['endereco_logradouro'] ?? '') ?>" 
+                                   placeholder="Rua, Avenida, etc.">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="endereco_numero" class="form-label">Número</label>
+                            <input type="text" class="form-control" 
+                                   id="endereco_numero"
+                                   name="endereco_numero" 
+                                   value="<?= old('endereco_numero', $associado['endereco_numero'] ?? '') ?>" 
+                                   placeholder="Nº">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="endereco_complemento" class="form-label">Complemento</label>
+                            <input type="text" class="form-control" 
+                                   id="endereco_complemento"
+                                   name="endereco_complemento" 
+                                   value="<?= old('endereco_complemento', $associado['endereco_complemento'] ?? '') ?>" 
+                                   placeholder="Apt, Bloco, etc.">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="endereco_bairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" 
+                                   id="endereco_bairro"
+                                   name="endereco_bairro" 
+                                   value="<?= old('endereco_bairro', $associado['endereco_bairro'] ?? '') ?>" 
+                                   placeholder="Bairro">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="endereco_cidade" class="form-label">Cidade</label>
+                            <input type="text" class="form-control" 
+                                   id="endereco_cidade"
+                                   name="endereco_cidade" 
+                                   value="<?= old('endereco_cidade', $associado['endereco_cidade'] ?? '') ?>" 
+                                   placeholder="Cidade">
+                        </div>
+                        <div class="col-md-1">
+                            <label for="endereco_estado" class="form-label">UF</label>
+                            <input type="text" class="form-control text-uppercase" 
+                                   id="endereco_estado"
+                                   name="endereco_estado" 
+                                   value="<?= old('endereco_estado', $associado['endereco_estado'] ?? '') ?>" 
+                                   placeholder="UF" 
+                                   maxlength="2">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -464,87 +398,8 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Adicionar Endereço
-let enderecoIndex = <?= count($associado['enderecos'] ?? [1]) ?>;
-document.getElementById('addEndereco').addEventListener('click', function() {
-    const container = document.getElementById('enderecosContainer');
-    const html = `
-        <div class="endereco-item border rounded p-3 mb-3">
-            <div class="d-flex justify-content-between mb-2">
-                <strong>Endereço ${enderecoIndex + 1}</strong>
-                <button type="button" class="btn btn-sm btn-danger remove-endereco">
-                    <i class="bi bi-trash"></i> Remover
-                </button>
-            </div>
-            <div class="row g-2">
-                <div class="col-md-3">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control mask-cep buscar-cep" 
-                               name="enderecos[${enderecoIndex}][cep]" 
-                               placeholder="CEP"
-                               data-index="${enderecoIndex}">
-                        <button type="button" class="btn btn-outline-primary btn-buscar-cep" data-index="${enderecoIndex}">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                    <small class="text-muted">Ex: 01001-000</small>
-                </div>
-                <div class="col-md-7">
-                    <input type="text" class="form-control form-control-sm endereco-logradouro" 
-                           name="enderecos[${enderecoIndex}][logradouro]" 
-                           placeholder="Logradouro"
-                           data-index="${enderecoIndex}">
-                </div>
-                <div class="col-md-2">
-                    <input type="text" class="form-control form-control-sm" 
-                           name="enderecos[${enderecoIndex}][numero]" 
-                           placeholder="Nº">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control form-control-sm endereco-complemento" 
-                           name="enderecos[${enderecoIndex}][complemento]" 
-                           placeholder="Complemento"
-                           data-index="${enderecoIndex}">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control form-control-sm endereco-bairro" 
-                           name="enderecos[${enderecoIndex}][bairro]" 
-                           placeholder="Bairro"
-                           data-index="${enderecoIndex}">
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control form-control-sm endereco-cidade" 
-                           name="enderecos[${enderecoIndex}][cidade]" 
-                           placeholder="Cidade"
-                           data-index="${enderecoIndex}">
-                </div>
-                <div class="col-md-1">
-                    <input type="text" class="form-control form-control-sm text-uppercase endereco-estado" 
-                           name="enderecos[${enderecoIndex}][estado]" 
-                           placeholder="UF" maxlength="2"
-                           data-index="${enderecoIndex}">
-                </div>
-            </div>
-        </div>
-    `;
-    container.insertAdjacentHTML('beforeend', html);
-    enderecoIndex++;
-});
-
-// Remover Endereço
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.remove-endereco')) {
-        const item = e.target.closest('.endereco-item');
-        if (document.querySelectorAll('.endereco-item').length > 1) {
-            item.remove();
-        } else {
-            alert('Pelo menos um endereço deve ser mantido.');
-        }
-    }
-});
-
 // Buscar CEP via ViaCEP
-async function buscarCEP(cep, index) {
+async function buscarCEP(cep) {
     // Remove caracteres não numéricos
     const cepLimpo = cep.replace(/\D/g, '');
     
@@ -560,13 +415,13 @@ async function buscarCEP(cep, index) {
         return;
     }
     
-    // Buscar elementos do endereço pelo data-index
-    const logradouro = document.querySelector(`.endereco-logradouro[data-index="${index}"]`);
-    const complemento = document.querySelector(`.endereco-complemento[data-index="${index}"]`);
-    const bairro = document.querySelector(`.endereco-bairro[data-index="${index}"]`);
-    const cidade = document.querySelector(`.endereco-cidade[data-index="${index}"]`);
-    const estado = document.querySelector(`.endereco-estado[data-index="${index}"]`);
-    const btnBuscar = document.querySelector(`.btn-buscar-cep[data-index="${index}"]`);
+    // Buscar elementos do endereço
+    const logradouro = document.getElementById('endereco_logradouro');
+    const complemento = document.getElementById('endereco_complemento');
+    const bairro = document.getElementById('endereco_bairro');
+    const cidade = document.getElementById('endereco_cidade');
+    const estado = document.getElementById('endereco_estado');
+    const btnBuscar = document.getElementById('btnBuscarCep');
     
     // Mostrar loading
     const iconOriginal = btnBuscar.innerHTML;
@@ -593,7 +448,7 @@ async function buscarCEP(cep, index) {
             estado.value = data.uf || '';
             
             // Colocar foco no campo número
-            const numero = logradouro.closest('.row').querySelector('input[name*="[numero]"]');
+            const numero = document.getElementById('endereco_numero');
             if (numero) {
                 numero.focus();
             }
@@ -618,46 +473,38 @@ async function buscarCEP(cep, index) {
     }
 }
 
-// Event listener para os botões de buscar CEP
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.btn-buscar-cep')) {
-        e.preventDefault();
-        const btn = e.target.closest('.btn-buscar-cep');
-        const index = btn.getAttribute('data-index');
-        const inputCep = document.querySelector(`.buscar-cep[data-index="${index}"]`);
-        if (inputCep && inputCep.value) {
-            buscarCEP(inputCep.value, index);
-        } else {
-            alert('Por favor, informe o CEP.');
-        }
+// Event listener para o botão de buscar CEP
+document.getElementById('btnBuscarCep').addEventListener('click', function(e) {
+    e.preventDefault();
+    const inputCep = document.getElementById('endereco_cep');
+    if (inputCep && inputCep.value) {
+        buscarCEP(inputCep.value);
+    } else {
+        alert('Por favor, informe o CEP.');
     }
 });
 
 // Buscar CEP ao pressionar Enter no campo CEP
-document.addEventListener('keypress', function(e) {
-    if (e.target.classList.contains('buscar-cep') && e.key === 'Enter') {
+document.getElementById('endereco_cep').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
         e.preventDefault();
-        const index = e.target.getAttribute('data-index');
-        if (e.target.value) {
-            buscarCEP(e.target.value, index);
+        if (this.value) {
+            buscarCEP(this.value);
         }
     }
 });
 
 // Buscar CEP automaticamente quando o usuário terminar de digitar (após 8 dígitos)
-document.addEventListener('input', function(e) {
-    if (e.target.classList.contains('buscar-cep')) {
-        const cepLimpo = e.target.value.replace(/\D/g, '');
-        if (cepLimpo.length === 8) {
-            const index = e.target.getAttribute('data-index');
-            // Aguardar 500ms para dar tempo do usuário finalizar
-            setTimeout(() => {
-                const cepAtual = e.target.value.replace(/\D/g, '');
-                if (cepAtual.length === 8) {
-                    buscarCEP(e.target.value, index);
-                }
-            }, 500);
-        }
+document.getElementById('endereco_cep').addEventListener('input', function(e) {
+    const cepLimpo = e.target.value.replace(/\D/g, '');
+    if (cepLimpo.length === 8) {
+        // Aguardar 500ms para dar tempo do usuário finalizar
+        setTimeout(() => {
+            const cepAtual = e.target.value.replace(/\D/g, '');
+            if (cepAtual.length === 8) {
+                buscarCEP(e.target.value);
+            }
+        }, 500);
     }
 });
 </script>
