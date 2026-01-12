@@ -75,12 +75,12 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     
     // Users (admin only)
     $routes->group('users', static function ($routes) {
-        $routes->get('/', 'Users::index', ['filter' => 'permission:users.manage']);
-        $routes->get('create', 'Users::create', ['filter' => 'permission:users.manage']);
-        $routes->post('create', 'Users::store', ['filter' => 'permission:users.manage']);
-        $routes->get('edit/(:num)', 'Users::edit/$1', ['filter' => 'permission:users.manage']);
-        $routes->post('update/(:num)', 'Users::update/$1', ['filter' => 'permission:users.manage']);
-        $routes->post('delete/(:num)', 'Users::delete/$1', ['filter' => 'permission:users.manage']);
+        $routes->get('/', 'Users::index', ['filter' => 'permission:users.view']);
+        $routes->get('create', 'Users::create', ['filter' => 'permission:users.create']);
+        $routes->post('store', 'Users::store', ['filter' => 'permission:users.create']);
+        $routes->get('edit/(:num)', 'Users::edit/$1', ['filter' => 'permission:users.update']);
+        $routes->put('update/(:num)', 'Users::update/$1', ['filter' => 'permission:users.update']);
+        $routes->delete('delete/(:num)', 'Users::delete/$1', ['filter' => 'permission:users.delete']);
     });
     
     // Audit logs
