@@ -24,7 +24,7 @@
             <div class="card-header bg-white py-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><?= esc($associado['nome']) ?></h5>
-                    <?php if ($associado['status'] === 'ativo'): ?>
+                    <?php if ($associado['status'] === 'ATIVO'): ?>
                         <span class="badge bg-success">Ativo</span>
                     <?php else: ?>
                         <span class="badge bg-danger">Inativo</span>

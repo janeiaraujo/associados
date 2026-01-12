@@ -134,16 +134,16 @@
                             <div class="d-flex gap-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="status" 
-                                           id="statusAtivo" value="ativo" 
-                                           <?= old('status', $associado['status'] ?? 'ativo') === 'ativo' ? 'checked' : '' ?>>
+                                           id="statusAtivo" value="ATIVO" 
+                                           <?= old('status', $associado['status'] ?? 'ATIVO') === 'ATIVO' ? 'checked' : '' ?>>
                                     <label class="form-check-label" for="statusAtivo">
                                         <span class="badge bg-success">Ativo</span>
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="status" 
-                                           id="statusInativo" value="inativo" 
-                                           <?= old('status', $associado['status'] ?? 'ativo') === 'inativo' ? 'checked' : '' ?>>
+                                           id="statusInativo" value="INATIVO" 
+                                           <?= old('status', $associado['status'] ?? 'ATIVO') === 'INATIVO' ? 'checked' : '' ?>>
                                     <label class="form-check-label" for="statusInativo">
                                         <span class="badge bg-danger">Inativo</span>
                                     </label>

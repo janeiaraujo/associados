@@ -69,8 +69,8 @@
                         <label class="form-label">Status</label>
                         <select class="form-select" name="status">
                             <option value="">Todos</option>
-                            <option value="ativo" <?= ($filters['status'] ?? '') === 'ativo' ? 'selected' : '' ?>>Ativo</option>
-                            <option value="inativo" <?= ($filters['status'] ?? '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
+                            <option value="ATIVO" <?= ($filters['status'] ?? '') === 'ATIVO' ? 'selected' : '' ?>>Ativo</option>
+                            <option value="INATIVO" <?= ($filters['status'] ?? '') === 'INATIVO' ? 'selected' : '' ?>>Inativo</option>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -132,7 +132,7 @@
                             <td><?= esc($associado['funcao']) ?></td>
                             <td><?= calculate_age($associado['data_nascimento']) ?> anos</td>
                             <td>
-                                <?php if ($associado['status'] === 'ativo'): ?>
+                                <?php if ($associado['status'] === 'ATIVO'): ?>
                                     <span class="badge bg-success">Ativo</span>
                                 <?php else: ?>
                                     <span class="badge bg-danger">Inativo</span>
