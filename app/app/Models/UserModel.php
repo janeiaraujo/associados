@@ -161,6 +161,11 @@ class UserModel extends Model
      */
     protected function hashPassword(array $data): array
     {
+        // CodeIgniter callbacks receive data in $data['data'] key
+        if (!isset($data['data'])) {
+            return $data;
+        }
+        
         if (isset($data['data']['password']) && !empty($data['data']['password'])) {
             $data['data']['password_hash'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
             unset($data['data']['password']);

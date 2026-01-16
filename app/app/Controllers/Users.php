@@ -153,8 +153,14 @@ class Users extends BaseController
 
         // Use save() method which handles validation correctly with ID
         if (!$this->userModel->save($data)) {
+            // Log the validation errors for debugging
+            log_message('error', 'User update failed for ID ' . $id . ': ' . json_encode($this->userModel->errors()));
+            
+            $errors = $this->userModel->errors();
+            $errorMessage = !empty($errors) ? implode(', ', $errors) : 'Erro desconhecido ao atualizar usuário.';
+            
             return redirect()->back()
-                ->with('error', 'Erro ao atualizar usuário: ' . implode(', ', $this->userModel->errors()))
+                ->with('error', 'Erro ao atualizar usuário: ' . $errorMessage)
                 ->withInput();
         }
 
