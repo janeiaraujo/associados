@@ -61,8 +61,7 @@ class Users extends BaseController
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'password' => $this->request->getPost('password'),
-            'role_id' => $this->request->getPost('role_id'),
-            'status' => $this->request->getPost('status') ?? 'ativo',
+            'is_active' => $this->request->getPost('status') === 'ativo' ? 1 : 0,
         ];
 
         if (!$this->userModel->save($data)) {
@@ -72,6 +71,12 @@ class Users extends BaseController
         }
 
         $userId = $this->userModel->getInsertID();
+
+        // Assign role to user
+        $roleId = $this->request->getPost('role_id');
+        if ($roleId) {
+            $this->userModel->assignRoles($userId, [$roleId]);
+        }
 
         // Log action
         $this->auditLogModel->logAction(
@@ -101,6 +106,17 @@ class Users extends BaseController
                 ->with('error', 'Usuário não encontrado.');
         }
 
+        // Get user's role
+        $db = \Config\Database::connect();
+        $roleResult = $db->table('user_roles')
+            ->select('role_id')
+            ->where('user_id', $id)
+            ->get()
+            ->getRowArray();
+        
+        $user['role_id'] = $roleResult['role_id'] ?? null;
+        $user['status'] = $user['is_active'] ? 'ativo' : 'inativo';
+
         $data['user'] = $user;
         $data['roles'] = $this->roleModel->findAll();
         $data['action'] = 'edit';
@@ -125,8 +141,7 @@ class Users extends BaseController
         $data = [
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
-            'role_id' => $this->request->getPost('role_id'),
-            'status' => $this->request->getPost('status'),
+            'is_active' => $this->request->getPost('status') === 'ativo' ? 1 : 0,
         ];
 
         // Only update password if provided
@@ -139,6 +154,12 @@ class Users extends BaseController
             return redirect()->back()
                 ->with('error', 'Erro ao atualizar usuário: ' . implode(', ', $this->userModel->errors()))
                 ->withInput();
+        }
+
+        // Update role assignment
+        $roleId = $this->request->getPost('role_id');
+        if ($roleId) {
+            $this->userModel->assignRoles($id, [$roleId]);
         }
 
         // Log action

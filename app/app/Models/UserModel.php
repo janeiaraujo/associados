@@ -15,6 +15,7 @@ class UserModel extends Model
     protected $allowedFields = [
         'name',
         'email',
+        'password',
         'password_hash',
         'is_active',
         'force_password_change',
@@ -41,6 +42,7 @@ class UserModel extends Model
     protected $validationRules = [
         'name' => 'required|min_length[3]|max_length[150]',
         'email' => 'required|valid_email|max_length[150]|is_unique[users.email,id,{id}]',
+        'password' => 'permit_empty|min_length[6]',
         'password_hash' => 'permit_empty',
     ];
 
@@ -49,6 +51,9 @@ class UserModel extends Model
             'is_unique' => 'Este e-mail já está cadastrado.',
             'valid_email' => 'Por favor, insira um e-mail válido.',
         ],
+        'password' => [
+            'min_length' => 'A senha deve ter no mínimo 6 caracteres.',
+        ],
     ];
 
     protected $skipValidation = false;
@@ -56,9 +61,9 @@ class UserModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert = [];
+    protected $beforeInsert = ['hashPassword'];
     protected $afterInsert = [];
-    protected $beforeUpdate = [];
+    protected $beforeUpdate = ['hashPassword'];
     protected $afterUpdate = [];
     protected $beforeFind = [];
     protected $afterFind = [];
@@ -149,5 +154,18 @@ class UserModel extends Model
     public function updateLastLogin(int $userId): bool
     {
         return $this->update($userId, ['last_login_at' => date('Y-m-d H:i:s')]);
+    }
+
+    /**
+     * Hash password before insert or update
+     */
+    protected function hashPassword(array $data): array
+    {
+        if (isset($data['data']['password']) && !empty($data['data']['password'])) {
+            $data['data']['password_hash'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+            unset($data['data']['password']);
+        }
+        
+        return $data;
     }
 }
