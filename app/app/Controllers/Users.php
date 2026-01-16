@@ -139,6 +139,7 @@ class Users extends BaseController
         }
 
         $data = [
+            'id' => $id, // Important: include ID for the is_unique validation to work
             'name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
             'is_active' => $this->request->getPost('status') === 'ativo' ? 1 : 0,
@@ -150,7 +151,8 @@ class Users extends BaseController
             $data['password'] = $password;
         }
 
-        if (!$this->userModel->update($id, $data)) {
+        // Use save() method which handles validation correctly with ID
+        if (!$this->userModel->save($data)) {
             return redirect()->back()
                 ->with('error', 'Erro ao atualizar usuário: ' . implode(', ', $this->userModel->errors()))
                 ->withInput();
