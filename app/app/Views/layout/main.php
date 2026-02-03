@@ -110,9 +110,10 @@
     
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <div class="p-4">
-            <h4 class="mb-0"><i class="bi bi-people-fill"></i> Associados</h4>
-            <small class="text-white-50">Sistema de Gestão</small>
+        <div class="p-4 text-center">
+            <img src="<?= base_url('assets/images/logo.png') ?>" alt="STSPPERJ" class="img-fluid mb-2" style="max-width: 80px; background: white; border-radius: 50%; padding: 5px;">
+            <h5 class="mb-0">STSPPERJ</h5>
+            <small class="text-white-50">Gestão de Associados</small>
         </div>
         
         <hr class="text-white-50">

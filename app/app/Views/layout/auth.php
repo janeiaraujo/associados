@@ -80,10 +80,9 @@
     <div class="auth-container">
         <div class="card auth-card">
             <div class="card-header auth-header">
-                <h3 class="mb-0">
-                    <i class="bi bi-people-fill"></i> Associados
-                </h3>
-                <small>Sistema de Gestão</small>
+                <img src="<?= base_url('assets/images/logo.png') ?>" alt="STSPPERJ" class="img-fluid mb-3" style="max-width: 120px; background: white; border-radius: 50%; padding: 5px;">
+                <h4 class="mb-0">STSPPERJ</h4>
+                <small>Sistema de Gestão de Associados</small>
             </div>
             <div class="card-body auth-body">
                 <!-- Alerts -->
