@@ -165,6 +165,12 @@
                 <i class="bi bi-clock-history"></i> Auditoria
             </a>
             <?php endif; ?>
+            
+            <?php if (has_permission('configuracoes.view')): ?>
+            <a class="nav-link" href="<?= base_url('configuracoes') ?>">
+                <i class="bi bi-gear"></i> Configurações
+            </a>
+            <?php endif; ?>
         </nav>
         
         <div class="position-absolute bottom-0 w-100 p-3">

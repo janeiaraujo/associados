@@ -85,4 +85,11 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     
     // Audit logs
     $routes->get('audit', 'Audit::index', ['filter' => 'permission:audit.view']);
+    
+    // Configurações
+    $routes->group('configuracoes', static function ($routes) {
+        $routes->get('/', 'Configuracoes::index', ['filter' => 'permission:configuracoes.view']);
+        $routes->post('update', 'Configuracoes::update', ['filter' => 'permission:configuracoes.update']);
+        $routes->post('upload-logo', 'Configuracoes::uploadLogo', ['filter' => 'permission:configuracoes.update']);
+    });
 });
