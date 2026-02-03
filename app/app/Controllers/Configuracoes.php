@@ -46,7 +46,7 @@ class Configuracoes extends BaseController
             // Pular campos que não são configurações
             if (in_array($chave, ['_method'])) continue;
             
-            $this->configuracaoModel->set($chave, $valor);
+            $this->configuracaoModel->setConfig($chave, $valor);
         }
 
         // Log action

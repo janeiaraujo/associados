@@ -37,7 +37,7 @@ class ConfiguracaoModel extends Model
     /**
      * Define o valor de uma configuração
      */
-    public function set(string $chave, $valor): bool
+    public function setConfig(string $chave, $valor): bool
     {
         $config = $this->where('chave', $chave)->first();
         
