@@ -77,12 +77,11 @@
     <?= $this->renderSection('styles') ?>
 </head>
 <body>
-    <?php helper('config'); ?>
     <div class="auth-container">
         <div class="card auth-card">
             <div class="card-header auth-header">
-                <img src="<?= logo_url() ?>?v=<?= time() ?>" alt="<?= config_get('empresa_nome', 'STSPPERJ') ?>" class="img-fluid mb-3" style="max-width: 120px; background: white; border-radius: 50%; padding: 5px;">
-                <h4 class="mb-0"><?= esc(config_get('empresa_nome', 'STSPPERJ')) ?></h4>
+                <img src="<?= base_url('assets/images/logo.png') ?>" alt="STSPPERJ" class="img-fluid mb-3" style="max-width: 120px; background: white; border-radius: 50%; padding: 5px;">
+                <h4 class="mb-0">STSPPERJ</h4>
                 <small>Sistema de Gestão de Associados</small>
             </div>
             <div class="card-body auth-body">
