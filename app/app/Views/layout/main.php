@@ -107,12 +107,13 @@
     <?= $this->renderSection('styles') ?>
 </head>
 <body>
+    <?php helper('config'); ?>
     
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="p-4 text-center">
-            <img src="<?= base_url('assets/images/logo.png') ?>" alt="STSPPERJ" class="img-fluid mb-2" style="max-width: 80px; background: white; border-radius: 50%; padding: 5px;">
-            <h5 class="mb-0">STSPPERJ</h5>
+            <img src="<?= logo_url() ?>?v=<?= time() ?>" alt="<?= config_get('empresa_nome', 'STSPPERJ') ?>" class="img-fluid mb-2" style="max-width: 80px; background: white; border-radius: 50%; padding: 5px;">
+            <h5 class="mb-0"><?= esc(config_get('empresa_nome', 'STSPPERJ')) ?></h5>
             <small class="text-white-50">Gestão de Associados</small>
         </div>
         
@@ -163,6 +164,12 @@
             <?php if (has_permission('audit.view')): ?>
             <a class="nav-link" href="<?= base_url('audit') ?>">
                 <i class="bi bi-clock-history"></i> Auditoria
+            </a>
+            <?php endif; ?>
+            
+            <?php if (has_permission('configuracoes.view')): ?>
+            <a class="nav-link" href="<?= base_url('configuracoes') ?>">
+                <i class="bi bi-gear"></i> Configurações
             </a>
             <?php endif; ?>
         </nav>
