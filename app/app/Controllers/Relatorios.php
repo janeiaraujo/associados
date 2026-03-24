@@ -50,19 +50,23 @@ class Relatorios extends BaseController
         try {
             $data = $this->generateReportData($reportType, $filters);
 
-            // Log report generation
-            $this->reportLogModel->insert([
-                'user_id' => session()->get('user_id'),
-                'report_name' => $reportType,
-                'filters' => json_encode($filters),
-                'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
-            ]);
+            // Log report generation (non-blocking)
+            try {
+                $this->reportLogModel->insert([
+                    'user_id' => session()->get('user_id'),
+                    'report_name' => $reportType,
+                    'filters' => $filters,
+                    'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
+                ]);
+            } catch (\Throwable $logError) {
+                log_message('error', 'Falha ao registrar log de relatório: ' . $logError->getMessage());
+            }
 
             return $this->response->setJSON([
                 'success' => true,
                 'data' => $data
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Erro ao gerar relatório: ' . $e->getMessage()
@@ -83,13 +87,17 @@ class Relatorios extends BaseController
         try {
             $data = $this->generateReportData($reportType, $filters);
 
-            // Log report export
-            $this->reportLogModel->insert([
-                'user_id' => session()->get('user_id'),
-                'report_name' => $reportType,
-                'filters' => json_encode($filters),
-                'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
-            ]);
+            // Log report export (non-blocking)
+            try {
+                $this->reportLogModel->insert([
+                    'user_id' => session()->get('user_id'),
+                    'report_name' => $reportType,
+                    'filters' => $filters,
+                    'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
+                ]);
+            } catch (\Throwable $logError) {
+                log_message('error', 'Falha ao registrar log de relatório: ' . $logError->getMessage());
+            }
             
             if ($format === 'xlsx') {
                 return $this->exportExcel($data, $reportType);
@@ -98,7 +106,7 @@ class Relatorios extends BaseController
             } elseif ($format === 'csv') {
                 return $this->exportCSV($data, $reportType);
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return redirect()->to('/relatorios')
                 ->with('error', 'Erro ao exportar relatório: ' . $e->getMessage());
         }
