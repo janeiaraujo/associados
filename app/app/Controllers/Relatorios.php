@@ -53,9 +53,9 @@ class Relatorios extends BaseController
             // Log report generation
             $this->reportLogModel->insert([
                 'user_id' => session()->get('user_id'),
-                'report_type' => $reportType,
+                'report_name' => $reportType,
                 'filters' => json_encode($filters),
-                'created_at' => date('Y-m-d H:i:s')
+                'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
             ]);
 
             return $this->response->setJSON([
@@ -86,9 +86,9 @@ class Relatorios extends BaseController
             // Log report export
             $this->reportLogModel->insert([
                 'user_id' => session()->get('user_id'),
-                'report_type' => $reportType,
+                'report_name' => $reportType,
                 'filters' => json_encode($filters),
-                'created_at' => date('Y-m-d H:i:s')
+                'result_count' => is_array($data) && !isset($data['total']) ? count($data) : 0,
             ]);
             
             if ($format === 'xlsx') {

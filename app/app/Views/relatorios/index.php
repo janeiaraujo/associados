@@ -86,7 +86,7 @@
                         <?php foreach ($recentReports as $report): ?>
                         <tr>
                             <td><?= format_datetime($report['created_at']) ?></td>
-                            <td><?= esc($report['report_type']) ?></td>
+                            <td><?= esc($report['report_name']) ?></td>
                             <td><?= esc($report['user_id']) ?></td>
                             <td>
                                 <small class="text-muted">
