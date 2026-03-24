@@ -85,6 +85,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     
     // Audit logs
     $routes->get('audit', 'Audit::index', ['filter' => 'permission:audit.view']);
+    $routes->get('audit/view/(:num)', 'Audit::view/$1', ['filter' => 'permission:audit.view']);
     
     // Configurações
     $routes->group('configuracoes', static function ($routes) {
