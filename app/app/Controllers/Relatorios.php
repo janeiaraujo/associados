@@ -176,16 +176,19 @@ class Relatorios extends BaseController
 
     private function generateAniversariantesReport($filters)
     {
-        $mes = $filters['mes'] ?? date('m');
+        $mes = (int)($filters['mes'] ?? date('m'));
         
-        return $this->associadoModel
+        $db = \Config\Database::connect();
+        
+        return $db->table('associados')
             ->select('associados.*, unidades.nome as unidade, funcoes.nome as funcao')
             ->join('unidades', 'unidades.id = associados.unidade_id', 'left')
             ->join('funcoes', 'funcoes.id = associados.funcao_id', 'left')
-            ->where('MONTH(data_nascimento)', $mes)
-            ->where('status', 'ATIVO')
-            ->orderBy('DAY(data_nascimento)', 'ASC')
-            ->findAll();
+            ->where('MONTH(associados.data_nascimento)', $mes)
+            ->where('associados.status', 'ATIVO')
+            ->orderBy('DAY(associados.data_nascimento)', 'ASC')
+            ->get()
+            ->getResultArray();
     }
 
     private function exportExcel($data, $reportType)
