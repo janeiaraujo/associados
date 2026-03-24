@@ -74,13 +74,13 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">Idade</label>
+                        <label class="form-label">Data de Nascimento</label>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="idade_min" 
-                                   placeholder="Min" value="<?= esc($filters['idade_min'] ?? '') ?>">
-                            <span class="input-group-text">-</span>
-                            <input type="number" class="form-control" name="idade_max" 
-                                   placeholder="Max" value="<?= esc($filters['idade_max'] ?? '') ?>">
+                            <input type="date" class="form-control" name="data_nascimento_inicio" 
+                                   value="<?= esc($filters['data_nascimento_inicio'] ?? '') ?>">
+                            <span class="input-group-text">até</span>
+                            <input type="date" class="form-control" name="data_nascimento_fim" 
+                                   value="<?= esc($filters['data_nascimento_fim'] ?? '') ?>">
                         </div>
                     </div>
                 </div>

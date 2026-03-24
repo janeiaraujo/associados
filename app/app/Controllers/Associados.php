@@ -25,8 +25,8 @@ class Associados extends BaseController
             'unidade' => $this->request->getGet('unidade'),
             'funcao' => $this->request->getGet('funcao'),
             'status' => $this->request->getGet('status'),
-            'idade_min' => $this->request->getGet('idade_min'),
-            'idade_max' => $this->request->getGet('idade_max'),
+            'data_nascimento_inicio' => $this->request->getGet('data_nascimento_inicio'),
+            'data_nascimento_fim' => $this->request->getGet('data_nascimento_fim'),
         ];
 
         // Get data with pagination

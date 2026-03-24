@@ -139,12 +139,18 @@ function openReportModal(type) {
                 <label class="form-label">Unidade</label>
                 <select class="form-select" id="filter_unidade">
                     <option value="">Todas</option>
+                    <?php foreach ($unidades as $unidade): ?>
+                    <option value="<?= esc($unidade['id']) ?>"><?= esc($unidade['nome']) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label class="form-label">Função</label>
                 <select class="form-select" id="filter_funcao">
                     <option value="">Todas</option>
+                    <?php foreach ($funcoes as $funcao): ?>
+                    <option value="<?= esc($funcao['id']) ?>"><?= esc($funcao['nome']) ?></option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="mb-3">
@@ -185,21 +191,20 @@ function generateMonthOptions() {
 }
 
 function generateReport() {
-    const filters = {};
+    const params = new URLSearchParams();
+    params.set('report_type', currentReportType);
     
     if (currentReportType === 'associados') {
-        filters.unidade_id = document.getElementById('filter_unidade')?.value || '';
-        filters.funcao_id = document.getElementById('filter_funcao')?.value || '';
-        filters.status = document.getElementById('filter_status')?.value || '';
+        const unidade = document.getElementById('filter_unidade')?.value || '';
+        const funcao = document.getElementById('filter_funcao')?.value || '';
+        const status = document.getElementById('filter_status')?.value || '';
+        if (unidade) params.set('filters[unidade_id]', unidade);
+        if (funcao) params.set('filters[funcao_id]', funcao);
+        if (status) params.set('filters[status]', status);
     } else if (currentReportType === 'aniversariantes') {
-        filters.mes = document.getElementById('filter_mes')?.value || '';
+        const mes = document.getElementById('filter_mes')?.value || '';
+        if (mes) params.set('filters[mes]', mes);
     }
-    
-    // Redirecionar para export
-    const params = new URLSearchParams({
-        report_type: currentReportType,
-        ...filters
-    });
     
     window.location.href = `<?= base_url('relatorios/export/xlsx') ?>?${params.toString()}`;
 }

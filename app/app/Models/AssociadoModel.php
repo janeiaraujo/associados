@@ -112,19 +112,12 @@ class AssociadoModel extends Model
             $this->where('associados.status', $filters['status']);
         }
 
-        // Filter by age range
-        if (!empty($filters['idade_min']) || !empty($filters['idade_max'])) {
-            $today = date('Y-m-d');
-            
-            if (!empty($filters['idade_max'])) {
-                $minDate = date('Y-m-d', strtotime("-{$filters['idade_max']} years"));
-                $this->where('associados.data_nascimento >=', $minDate);
-            }
-            
-            if (!empty($filters['idade_min'])) {
-                $maxDate = date('Y-m-d', strtotime("-{$filters['idade_min']} years"));
-                $this->where('associados.data_nascimento <=', $maxDate);
-            }
+        // Filter by birth date range
+        if (!empty($filters['data_nascimento_inicio'])) {
+            $this->where('associados.data_nascimento >=', $filters['data_nascimento_inicio']);
+        }
+        if (!empty($filters['data_nascimento_fim'])) {
+            $this->where('associados.data_nascimento <=', $filters['data_nascimento_fim']);
         }
 
         $this->orderBy('associados.nome', 'ASC');
