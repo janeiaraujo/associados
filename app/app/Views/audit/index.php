@@ -22,9 +22,9 @@
                         <select class="form-select" name="table">
                             <option value="">Todas</option>
                             <?php foreach ($tables as $table): ?>
-                                <option value="<?= esc($table['table_name']) ?>" 
-                                        <?= ($filters['table'] ?? '') == $table['table_name'] ? 'selected' : '' ?>>
-                                    <?= esc($table['table_name']) ?>
+                                <option value="<?= esc($table['entity']) ?>" 
+                                        <?= ($filters['table'] ?? '') == $table['entity'] ? 'selected' : '' ?>>
+                                    <?= esc($table['entity']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -103,7 +103,7 @@
                             </td>
                             <td><?= esc($log['user_name'] ?? 'Sistema') ?></td>
                             <td>
-                                <span class="badge bg-secondary"><?= esc($log['table_name']) ?></span>
+                                <span class="badge bg-secondary"><?= esc($log['entity']) ?></span>
                             </td>
                             <td>
                                 <?php if ($log['action'] === 'CREATE'): ?>
@@ -116,7 +116,7 @@
                                     <span class="badge bg-info"><?= esc($log['action']) ?></span>
                                 <?php endif; ?>
                             </td>
-                            <td><?= esc($log['record_id']) ?></td>
+                            <td><?= esc($log['entity_id']) ?></td>
                             <td>
                                 <a href="<?= base_url('audit/view/' . $log['id']) ?>" 
                                    class="btn btn-sm btn-outline-primary" title="Ver detalhes">

@@ -29,7 +29,7 @@
 
             <div class="col-md-3">
                 <label class="text-muted small">Tabela</label>
-                <div><span class="badge bg-secondary"><?= esc($log['table_name']) ?></span></div>
+                <div><span class="badge bg-secondary"><?= esc($log['entity']) ?></span></div>
             </div>
 
             <div class="col-md-3">
@@ -49,12 +49,12 @@
 
             <div class="col-md-3">
                 <label class="text-muted small">ID do Registro</label>
-                <div class="fw-bold"><?= esc($log['record_id']) ?></div>
+                <div class="fw-bold"><?= esc($log['entity_id']) ?></div>
             </div>
 
             <div class="col-md-9">
                 <label class="text-muted small">IP</label>
-                <div class="fw-bold"><?= esc($log['ip_address'] ?? '-') ?></div>
+                <div class="fw-bold"><?= esc($log['ip'] ?? '-') ?></div>
             </div>
         </div>
     </div>

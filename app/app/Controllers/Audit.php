@@ -36,7 +36,7 @@ class Audit extends BaseController
 
         // Apply filters
         if (!empty($filters['table'])) {
-            $builder->where('audit_logs.table_name', $filters['table']);
+            $builder->where('audit_logs.entity', $filters['table']);
         }
 
         if (!empty($filters['action'])) {
@@ -61,9 +61,9 @@ class Audit extends BaseController
 
         // Get distinct tables and users for filters
         $data['tables'] = $this->auditLogModel
-            ->select('table_name')
+            ->select('entity')
             ->distinct()
-            ->orderBy('table_name', 'ASC')
+            ->orderBy('entity', 'ASC')
             ->findAll();
 
         $userModel = model('UserModel');
@@ -94,8 +94,8 @@ class Audit extends BaseController
         }
 
         // Decode JSON data
-        $log['old_data_decoded'] = !empty($log['old_data']) ? json_decode($log['old_data'], true) : null;
-        $log['new_data_decoded'] = !empty($log['new_data']) ? json_decode($log['new_data'], true) : null;
+        $log['old_data_decoded'] = !empty($log['before_data']) ? (is_string($log['before_data']) ? json_decode($log['before_data'], true) : $log['before_data']) : null;
+        $log['new_data_decoded'] = !empty($log['after_data']) ? (is_string($log['after_data']) ? json_decode($log['after_data'], true) : $log['after_data']) : null;
 
         return view('audit/view', ['log' => $log]);
     }
